@@ -2,6 +2,10 @@
 ### A Case Study of the 2015 Nepal Earthquake
 #### Kim de Bie, Project Proposal, 4 January 2016
 
+_**Short overview**_
+
+*I am planning to build a data visualization which allows the user to compare conventional and crowdsourced data in the context of the aftermath of the 2015 Nepal earthquake. The user will be able to explore to what extent crowdsourced data is useful in the disaster response, and where it can complement or even replace conventional data. [I will be writing my bachelor's thesis on this topic; this visualization builds on data that I will analyse in my thesis, but this project is separate and the visualization will not be a (graded) part of my thesis.]*
+
 _**Problem description**_
 
 Natural disasters do not only place enormous strain on affected individuals, but also provide a very large challenge to those who aim to provide help. In the first days after an emergency hits, it is incredibly difficult for aid workers to identify what help is needed where. Aid organizations like the United Nations compile so-called situational reports in which they document all they know about the current situation. Here, organizations mainly rely on their own colleagues on the ground and are reluctant to trust information from outsiders. Thus, those using the data are also in charge of deciding what data is collected where and when, and usually directly employ others to collect this data. However, crowdsourced data from sources such as Twitter is increasingly seen as an alternative data form which can improve post-disaster situational awareness. Contrary to conventional data as collected by aid organizations, crowdsourced data is collected in a bottom-up manner. It is not the aid organization which determines what kind of data will be produced, but “the crowd” decides which information becomes available. 
