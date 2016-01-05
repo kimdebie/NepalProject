@@ -20,7 +20,7 @@ for both crowdsourced and conventional data. When more data is available for a d
 
 In addition, especially in the conventional dataset, there are many points that cannot necessarily be linked to a point on the map. The dataset contains many statements like ‘more medical supplies are needed’ or ‘8,500 classrooms have been destroyed’ that link to all affected locations and not to one location on the map specifically. I am not really sure about how I should handle these data points. At this point, I see two possibilities: 1) add them as a data point in every single district that they apply to (i.e. to all districts that are currently marked as affected); 2) add an additional bar chart (below the map) to display the ‘general’ information that becomes available. 
 
-![](doc/sketch.png)
+![](doc/proposal.png)
 
 
 _**Data sources**_
