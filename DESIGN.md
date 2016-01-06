@@ -1,8 +1,8 @@
 #Design Document
-####Last edited: 5 January 2016
+####Last edited: 6 January 2016
 *NB: This version is not complete yet!*
 
-To recap: I aim to visualize conventional and crowdsourced data as collected after the earthquake in Nepal on 25 April 2015. My visualization will consist of three parts:
+To recap: I aim to visualize conventional and crowdsourced data as collected after the earthquake in Nepal on 25 April 2015. My visualization will consist of two main parts (possibly a third):
 
 ###Map of Nepal's districts
 
@@ -33,11 +33,11 @@ The second element of the visualization is a bar chart that says something about
 
 ![]doc/designdoc2.png
 
-###Feature to check individual reports.
+###Feature to check individual reports (optional).
 
 The last element should allow the user to explore individual reports for more in-depth research. (I haven't put too much thought into this yet and it is the last element I would implement if I have the time). Only the data that was *added* on the selected day (selected with the slide bar on the map) will be included in this element. 
 
-* Again, **data** comes from the two csv. files.
+* Again, **data** comes from the two csv files.
 * Selecting a day would then lead to the following sequence of events:
     * Check if a district has already been selected, if so, this becomes the second filter.
     * Filter for date and district (if applicable). 

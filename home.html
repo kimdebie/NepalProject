@@ -4,6 +4,8 @@
 
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/nouislider.css" >
+		<link rel="stylesheet" type="text/css" href="css/nouislider.tooltips.css" >
 		<meta charset="utf-8"/>
 		<title>Comparing Conventional and Crowdsourced Data in the Disaster Response</title>
 		<script src="js/jsbackup.js"></script>
@@ -19,6 +21,7 @@
 		<h2>Comparing Conventional and Crowdsourced Data</h2>
 		<p><i>by Kim de Bie (11077379)</i></p>
 		<p>Natural disasters do not only place enormous strain on affected individuals, but also provide a very large challenge to those who aim to provide help. In the first days after an emergency hits, it is incredibly difficult for aid workers to identify what help is needed where. However, researchers have put forward that crowdsourced data (data created by the public, through sources such as Twitter) may be of great help in locating where help is needed. This data visualization allows you to explore both conventional data and newer crowdsourced data. See for yourself where they complement each other, and what the weaknesses and strengths of each data type are.</p>
+
 		<div>
 			<select id="dataselector" onchange="loadData()">
 				<option>Select a data type</option>
@@ -27,12 +30,13 @@
 			  	<option value="both">Both</option>
 			</select>
 		</div>
-		<div id="slider">
-			<script src="js/jQDateRangeSlider-min.js"></script>
-		</div>
-		<div id="nepalmap">
-			<script src="js/nepalscript.js"></script>
-		</div>
+
+		<div id="slider"><script src="js/nouislider.js"></script></div>
+		<div id="slidervalue"></div>
+
+		<div id="nepalmap"><script src="js/nepalscript.js"></script></div>
+
+		<div id="barchart"></div>
 		
 	</body>
 
