@@ -1,7 +1,7 @@
 /*
  *
  * Kim de Bie (11077379) - 5 January 2016
- * Last updated: 6 January 2016
+ * Last updated: 7 January 2016
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake.
@@ -53,6 +53,8 @@ d3.json("../data/nepal-districts.topo.json", function(error, nepal) {
     // saving the district data
     var districts = topojson.feature(nepal, nepal.objects.districts);
 
+    // centering the map
+    // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
     projection
       .scale(1)
       .translate([0, 0]);
@@ -75,10 +77,7 @@ d3.json("../data/nepal-districts.topo.json", function(error, nepal) {
       .attr("d", path)
 
       // this should eventually show a bar chart
-      .on("click", function showBarchart(d){
-        console.log("click!")
-        document.getElementById('barchart').innerHTML = 'A barchart will be added here for the following district: ' + d.properties.name.capitalize(true)
-      })
+      .on("click", showBarchart)
 
       // the tooltip
       // http://techslides.com/demos/d3/d3-world-map-colors-tooltips.html
@@ -104,24 +103,32 @@ d3.json("../data/nepal-districts.topo.json", function(error, nepal) {
 
 /* 
  * date slider (to select a date range)
+ * noUISlider from https://refreshless.com/nouislider
  */ 
 
+// create a list of day and monthnames (for displaying the date)
+var weekdays = ["Sunday", "Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// initializing the slider
 var slider = document.getElementById('slider');
 
 noUiSlider.create(slider, {
   range: {
-    'min': timestamp("2015, 3, 25"),
-    'max': timestamp("2015, 4, 5")
+    'min': timestamp("2015, 4, 25"),
+    'max': timestamp("2015, 5, 5")
   },
+  // each step is one day (in miliseconds)
   step: 24 * 60 * 60 * 1000,
-  start: timestamp("2015, 4, 5")
-  // numbers need to be rounded - done in example, I should figure it out tomorrow
+  start: timestamp("2015, 5, 5")
 });
 
+// updating the slider value
 slidervalue = document.getElementById("slidervalue")
 
 slider.noUiSlider.on('update', function( values, handle ) {
-  slidervalue.innerHTML = new Date(+values[handle]);
+  slidervalue.innerHTML = formatDate(new Date(+values[handle]));
+  updateMap(values, handle)
 });
 
 
@@ -132,7 +139,10 @@ slider.noUiSlider.on('update', function( values, handle ) {
  */
 
 
-
+function showBarchart(d){
+        console.log("click!");
+        document.getElementById('barchart').innerHTML = 'A barchart will be added here for the following district: ' + d.properties.name.capitalize(true);
+};
 
 
 /*
@@ -145,25 +155,12 @@ String.prototype.capitalize = function(lower) {
     return (lower ? this.toLowerCase() : this).replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 };
 
-// functions for slider:
+// functions for slider
 // from https://refreshless.com/nouislider/examples/#section-dates
 
 function timestamp(str){
     return new Date(str).getTime();   
 };
-
-// Create a list of day and monthnames.
-var weekdays = [
-    "Sunday", "Monday", "Tuesday",
-    "Wednesday", "Thursday", "Friday",
-    "Saturday"
-  ],
-  months = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
-  ];
 
 // Append a suffix to dates.
 // Example: 23 => 23rd, 1 => 1st.
@@ -175,7 +172,7 @@ function nth (d) {
         case 3:  return "rd";
         default: return "th";
     }
-}
+};
 
 // Create a string representation of the date. (doesnt work correctly)
 function formatDate ( date ) {
@@ -183,4 +180,10 @@ function formatDate ( date ) {
         date.getDate() + nth(date.getDate()) + " " +
         months[date.getMonth()] + " " +
         date.getFullYear();
-}
+};
+
+
+// function in which eventually updating of the map can happen
+function updateMap(values, handle){
+        console.log("This should lead to the display of data for the following date:" + new Date(+values[handle]));
+};
