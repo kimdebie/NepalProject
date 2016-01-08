@@ -4,39 +4,54 @@
 
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
-		<link rel="stylesheet" type="text/css" href="css/nouislider.css" >
+		<link rel="stylesheet" type="text/css" href="css/nouislider.css"/>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+
 		<meta charset="utf-8"/>
 		<title>Comparing Conventional and Crowdsourced Data in the Disaster Response</title>
 		<script src="js/jsbackup.js"></script>
 		<script src="js/d3backup.js"></script>
 		<script src="js/topojson.v1.min.js"></script>
 		<script src="js/worldmapbackup.js"></script>
+		<script src="js/queuebackup.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	</head>
 
 	<body>
-		<h1>The 2015 Nepal Earthquake</h1>
-		<h2>Comparing Conventional and Crowdsourced Data</h2>
-		<p><i>by Kim de Bie (11077379)</i></p>
-		<p>Natural disasters do not only place enormous strain on affected individuals, but also provide a very large challenge to those who aim to provide help. In the first days after an emergency hits, it is incredibly difficult for aid workers to identify what help is needed where. However, researchers have put forward that crowdsourced data (data created by the public, through sources such as Twitter) may be of great help in locating where help is needed. This data visualization allows you to explore both conventional data and newer crowdsourced data. See for yourself where they complement each other, and what the weaknesses and strengths of each data type are.</p>
+		<nav class="navbar navbar-default navbar-fixed-top">
+	  		<div class="container-fluid">
+	    		<div class="navbar-header">
+	      			<a class="navbar-brand" href="home.html">the 2015 Nepal Earthquake</a>
+	    		</div>
+	    		<ul class="nav navbar-nav">
+		     		<li class="active"><a href="home.html">Home</a></li>
+		      		<li><a href="earthquake.html">The earthquake</a></li>
+		      		<li><a href="crowdsourcing.html">Crowdsourced data?</a></li> 
+		      		<li><a href="data.html">Comparing the data</a></li> 
+				</ul>
+			</div>
+		</nav>
 
-		<div>
-			<select id="dataselector" onchange="loadData()">
-				<option>Select a data type</option>
-				<option value="conventional">Conventional data</option>
-			  	<option value="crowdsourced">Crowdsourced data</option>
-			  	<option value="both">Both</option>
-			</select>
-		</div>
+		<h1>The 2015 Nepal Earthquake</h1>
+		<h3>Comparing Conventional and Crowdsourced Data</h3>
+		<p id="intro">Natural disasters do not only place enormous strain on affected individuals, but also provide a very large challenge to those who aim to provide help. In the first days after an emergency hits, it is incredibly difficult for aid workers to identify what help is needed where. However, researchers have put forward that crowdsourced data (data created by the public, through sources such as Twitter) may be of great help in locating where help is needed. This data visualization allows you to explore both conventional data and newer crowdsourced data. See for yourself where they complement each other, and what the weaknesses and strengths of each data type are.</p>
 
 		<div id="slider"><script src="js/nouislider.js"></script></div>
 		<div id="slidervalue"></div>
+
+		<div id="dataselector">
+			<input id="conventional" type="checkbox" name="conventional" onclick="isChecked()" checked>Conventional</input><br>
+			<input id="crowdsourced" type="checkbox" name="crowdsourced" onclick="isChecked()" checked>Crowdsourced</input>
+		</div>
 
 		<div id="nepalmap"><script src="js/nepalscript.js"></script></div>
 
 		<div id="barchart"></div>
 		
 	</body>
+	<footer>
+	<p>Kim de Bie (11077379), University of Amsterdam, January 2016</p>
+	</footer>
 
 </html>

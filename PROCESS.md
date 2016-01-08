@@ -23,3 +23,12 @@ So, _tomorrow_ I want to fix the last bugs in the prototype (date slider) and th
 ###day 4: 7 January
 
 Today I firstly finished up my prototype - the map and dateslider are now working, and I added some functions that I will later complete to relate the map to the data. After that I spent most of my day on finishing up my datasets (which involves manual coding, so not too programming-intensive today). _Tomorrow_ I will focus on preparing my presentation and I want to see if I can load the data properly. I also want to make a plan for next week and determine what exactly should be part of my alpha-version that is due on day 10. 
+
+
+###day 5: 8 January
+
+As planned, I fixed the _loading of the data_. I also further improved the interactive parts of the map: I replaced the drop-down menu I had to select data with _checkboxes_ which I find prettier/more intuitive. I further implemented functions that register what _filters_ are applied, and I built a prototype function that should eventually color the districts on the map. The main challenge for now is _linking this function to the dataset_ and determining the color of a district based on the number of reports that are in the dataset for that district. I also worked on the general layout of the page; I added a _navigation bar_ and multiple pages (that will not all contain data visualizations but mostly background info). 
+
+Based on my thought process in preparing for the presentation (and the feedback I got during the presentation) I decided that it would probably be helpful to have some extra charts that allow the user to compare _all_ data over time. The current visualizations I have are mostly focused on displaying data per district, but it would also be nice to e.g. have a line graph that shows the number of reports coming in over time for both data sources, to see where peaks are etcetera. For now I will focus on the map/barchart part though.
+
+For _next week_, I will focus on the map and linking data to it, based on filters that are applied. Hopefully I should get this working by Tuesday or so. I want to spend the rest of the week on building the bar charts. 

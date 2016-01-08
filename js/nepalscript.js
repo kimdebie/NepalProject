@@ -13,6 +13,9 @@
  * https://github.com/batuwa/nepal_d3_map
  */
 
+var date;
+var type = "both";
+
 var width = 960,
     height = 500;
 
@@ -45,8 +48,16 @@ var g = svg.append("g");
 var tooltip = d3.select("#nepalmap").append("div")
     .attr("class", "tooltip");
 
+// loading the data
+queue()
+  .defer(d3.json, '../data/nepal-districts.topo.json')
+  .defer(d3.csv, '../data/conventional.csv')
+  .defer(d3.csv, '../data/crowdsourced.csv')
+  .await(loadMap);
 
-d3.json("../data/nepal-districts.topo.json", function(error, nepal) {
+
+// once the data is loaded, show the map
+function loadMap(error, nepal, conventional, crowdsourced){
 
     if(error) return console.error(error);
 
@@ -98,9 +109,26 @@ d3.json("../data/nepal-districts.topo.json", function(error, nepal) {
       .attr("class", "district-boundary")
       .attr("d", path); 
 
+    colorMap();
+};
 
-});
+/*
+ * Functions to determine what type of data should be displayed
+ */
 
+function isChecked(){
+    if($('#conventional').prop('checked') && $('#crowdsourced').prop('checked')){
+        type = 'both';
+    } else if ($('#conventional').prop('checked')) {
+        type = 'conventional';
+    } else if ($('#crowdsourced').prop('checked')) {
+        type = 'crowdsourced';
+    } else {
+        type = 'none';
+    };
+    colorMap();
+}
+      
 /* 
  * date slider (to select a date range)
  * noUISlider from https://refreshless.com/nouislider
@@ -128,22 +156,31 @@ slidervalue = document.getElementById("slidervalue")
 
 slider.noUiSlider.on('update', function( values, handle ) {
   slidervalue.innerHTML = formatDate(new Date(+values[handle]));
-  updateMap(values, handle)
+  date = new Date(+values[handle]);
+  colorMap();
 });
 
+/* function to determine for which date data should be displayed */
+
+function colorMap(){
+    console.log("I will display " + type + " data on " + date);
+    // for testing
+    d3.select("#gorkha")
+      .attr("style", "fill:green")
+    if (type == 'crowdsourced'){
+      d3.select("#gorkha")
+      .attr("style", "fill:red")
+    }
+};
 
 /*
- *
  *  the bar graphs that appear when clicking on a district should go here
- *
  */
-
 
 function showBarchart(d){
         console.log("click!");
         document.getElementById('barchart').innerHTML = 'A barchart will be added here for the following district: ' + d.properties.name.capitalize(true);
 };
-
 
 /*
  * Other helper functions
@@ -174,16 +211,10 @@ function nth (d) {
     }
 };
 
-// Create a string representation of the date. (doesnt work correctly)
+// Create a string representation of the date.
 function formatDate ( date ) {
     return weekdays[date.getDay()] + ", " +
         date.getDate() + nth(date.getDate()) + " " +
         months[date.getMonth()] + " " +
         date.getFullYear();
-};
-
-
-// function in which eventually updating of the map can happen
-function updateMap(values, handle){
-        console.log("This should lead to the display of data for the following date:" + new Date(+values[handle]));
 };
