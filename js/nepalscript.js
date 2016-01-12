@@ -14,7 +14,7 @@
  */
 
 var date;
-var type = "both";
+var type = "conventional";
 
 var width = 960,
     height = 500;
@@ -60,9 +60,19 @@ queue()
 function loadMap(error, nepal, conventional, crowdsourced){
 
     if(error) return console.error(error);
+    console.log(conventional);
 
     // saving the district data
     var districts = topojson.feature(nepal, nepal.objects.districts);
+
+    /*
+    var combineddata = conventional // todo
+
+    var conventionalcount = countRows(conventional)
+    var crowdsourcedcount = countRows(crowdsourced)
+    var combinedcount = countRows(combineddata)
+    */
+
 
     // centering the map
     // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
@@ -109,7 +119,7 @@ function loadMap(error, nepal, conventional, crowdsourced){
       .attr("class", "district-boundary")
       .attr("d", path); 
 
-    colorMap();
+    colorMap(conventional, crowdsourced);
 };
 
 /*
@@ -126,7 +136,7 @@ function isChecked(){
     } else {
         type = 'none';
     };
-    colorMap();
+    colorMap(conventional, crowdsourced);
 }
       
 /* 
@@ -157,20 +167,51 @@ slidervalue = document.getElementById("slidervalue")
 slider.noUiSlider.on('update', function( values, handle ) {
   slidervalue.innerHTML = formatDate(new Date(+values[handle]));
   date = new Date(+values[handle]);
-  colorMap();
+  //colorMap(conventional, crowdsourced);
 });
 
 /* function to determine for which date data should be displayed */
 
-function colorMap(){
+function colorMap(conventional, crowdsourced){
     console.log("I will display " + type + " data on " + date);
-    // for testing
-    d3.select("#gorkha")
-      .attr("style", "fill:green")
-    if (type == 'crowdsourced'){
-      d3.select("#gorkha")
-      .attr("style", "fill:red")
-    }
+
+    // counting the number of rows for each district
+    // https://stackoverflow.com/questions/19711123/count-the-number-of-rows-of-a-csv-file-with-d3-js
+    var counts = {};
+    conventional.forEach(function(r) {
+        if (r.district !== "NA"){
+          var key = r.district;
+          if (!counts[key]) {
+                counts[key] = {
+                  district: r.district,
+                  count: 0
+                };
+          }
+          counts[key].count++;
+        }  
+    });
+
+    // converting to an array
+    var data = [];
+    Object.keys(counts).forEach(function(key) {
+        data.push(counts[key]);
+    });
+
+    // set color scale
+    // colors from http://colorbrewer2.org/
+    var color = d3.scale.quantize()
+               .range(["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"])
+               .domain([
+                  d3.min(data, function(d) { return d.count; }),
+                  d3.max(data, function(d) { return d.count; })
+                ]);
+
+    // color the districts with datapoints
+    data.forEach(function(object){
+      d3.select("#" + object.district)
+        .style("fill", color(object.count))
+    });
+
 };
 
 /*
