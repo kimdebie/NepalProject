@@ -32,3 +32,9 @@ As planned, I fixed the _loading of the data_. I also further improved the inter
 Based on my thought process in preparing for the presentation (and the feedback I got during the presentation) I decided that it would probably be helpful to have some extra charts that allow the user to compare _all_ data over time. The current visualizations I have are mostly focused on displaying data per district, but it would also be nice to e.g. have a line graph that shows the number of reports coming in over time for both data sources, to see where peaks are etcetera. For now I will focus on the map/barchart part though.
 
 For _next week_, I will focus on the map and linking data to it, based on filters that are applied. Hopefully I should get this working by Tuesday or so. I want to spend the rest of the week on building the bar charts. 
+
+###day 6 and 7: 11/12 January
+
+_Today and yesterday_, I worked on getting the map element fully functional. This worked out well and is now done. I struggled a bit with saving data globally (so that I can access it from functions outside the d3 function) but I figured it out in the end. The appropriate filters (date and data type) are applied, and the data points for each district are counted accordingly. The only thing I might still want to improve about the map is the coloring - I now created 9 'buckets' of equal size, but relatively many districts stay on the whiter scale of the spectrum for a long time. Maybe the buckets should be of non-equal size, but this is something I can think about in a later stage. I also want to add a legend.
+
+For the rest of the week, I want to focus on implementing the bar chart element. 

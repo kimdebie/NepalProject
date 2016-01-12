@@ -28,7 +28,7 @@ html, body{
 }
 
 #footer {
-  background:yellow;
+  background:#c9ced1;
   width:100%;
   height:40px;
   position:absolute;
@@ -67,10 +67,6 @@ html, body{
 
 .districts{
   fill: #C1C1C1;
-}
-
-.districts:hover{
-  fill: yellow;
 }
 
 .district-boundary{

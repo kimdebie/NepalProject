@@ -1,7 +1,7 @@
 /*
  *
  * Kim de Bie (11077379) - 5 January 2016
- * Last updated: 7 January 2016
+ * Last updated: 12 January 2016
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake.
@@ -13,9 +13,11 @@
  * https://github.com/batuwa/nepal_d3_map
  */
 
-var date;
-var type = "conventional";
+// global variables to be called throughout program 
+var date, type, conventionaldata, crowdsourceddata, combineddata;
+var initialLoad = true;
 
+// setting the width and height of the map
 var width = 960,
     height = 500;
 
@@ -48,31 +50,32 @@ var g = svg.append("g");
 var tooltip = d3.select("#nepalmap").append("div")
     .attr("class", "tooltip");
 
+// setting colors for the map
+// from colorbrewer2.org
+var color = d3.scale.quantize()
+    .range(["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"])
+
 // loading the data
 queue()
   .defer(d3.json, '../data/nepal-districts.topo.json')
   .defer(d3.csv, '../data/conventional.csv')
   .defer(d3.csv, '../data/crowdsourced.csv')
+  .defer(d3.csv, '../data/combined.csv')
   .await(loadMap);
 
 
 // once the data is loaded, show the map
-function loadMap(error, nepal, conventional, crowdsourced){
+function loadMap(error, nepal, conventional, crowdsourced, combined){
 
     if(error) return console.error(error);
-    console.log(conventional);
+
+    // save all datasets into a global variable with appropriate date value
+    conventionaldata = adaptDate(conventional);
+    crowdsourceddata = adaptDate(crowdsourced);
+    combineddata = adaptDate(combined);
 
     // saving the district data
     var districts = topojson.feature(nepal, nepal.objects.districts);
-
-    /*
-    var combineddata = conventional // todo
-
-    var conventionalcount = countRows(conventional)
-    var crowdsourcedcount = countRows(crowdsourced)
-    var combinedcount = countRows(combineddata)
-    */
-
 
     // centering the map
     // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
@@ -119,8 +122,12 @@ function loadMap(error, nepal, conventional, crowdsourced){
       .attr("class", "district-boundary")
       .attr("d", path); 
 
-    colorMap(conventional, crowdsourced);
+    // coloring the map - initally with both data sources
+    type = combineddata;
+    colorMap(type);
+    initialLoad = false;
 };
+
 
 /*
  * Functions to determine what type of data should be displayed
@@ -128,15 +135,15 @@ function loadMap(error, nepal, conventional, crowdsourced){
 
 function isChecked(){
     if($('#conventional').prop('checked') && $('#crowdsourced').prop('checked')){
-        type = 'both';
+        type = combineddata;
     } else if ($('#conventional').prop('checked')) {
-        type = 'conventional';
+        type = conventionaldata;
     } else if ($('#crowdsourced').prop('checked')) {
-        type = 'crowdsourced';
+        type = crowdsourceddata;
     } else {
-        type = 'none';
+        alert('Check at least one checkbox');
     };
-    colorMap(conventional, crowdsourced);
+    colorMap(type);
 }
       
 /* 
@@ -167,27 +174,40 @@ slidervalue = document.getElementById("slidervalue")
 slider.noUiSlider.on('update', function( values, handle ) {
   slidervalue.innerHTML = formatDate(new Date(+values[handle]));
   date = new Date(+values[handle]);
-  //colorMap(conventional, crowdsourced);
+  if (initialLoad == false){
+      colorMap(type);
+  }
 });
 
-/* function to determine for which date data should be displayed */
+/* function to save datasets with correct dates (from Excel date to JS)*/
 
-function colorMap(conventional, crowdsourced){
-    console.log("I will display " + type + " data on " + date);
+function adaptDate(dataset){
+  dataset.forEach(function(r) {
+    // https://gist.github.com/christopherscott/2782634 (adapted)
+    r.date = new Date(((r.date - (25567 + 2))*86400*1000)-2*60*60*1000);
+  });
+  return dataset;
+};
 
+/* function to count the number of rows for a given selection */
+
+function countRows(dataset){
     // counting the number of rows for each district
     // https://stackoverflow.com/questions/19711123/count-the-number-of-rows-of-a-csv-file-with-d3-js
     var counts = {};
-    conventional.forEach(function(r) {
+    dataset.forEach(function(r) {
         if (r.district !== "NA"){
-          var key = r.district;
-          if (!counts[key]) {
-                counts[key] = {
-                  district: r.district,
-                  count: 0
-                };
-          }
-          counts[key].count++;
+          // only reports included up to date selected with slider
+          if (r.date <= date){
+              var key = r.district;
+              if (!counts[key]) {
+                    counts[key] = {
+                      district: r.district,
+                      count: 0
+                    };
+              }
+              counts[key].count++;
+            }
         }  
     });
 
@@ -196,22 +216,36 @@ function colorMap(conventional, crowdsourced){
     Object.keys(counts).forEach(function(key) {
         data.push(counts[key]);
     });
+    return data;
+};
 
-    // set color scale
+
+/* function to color the map based on data */
+
+function colorMap(dataset){
+    // reset the colors
+    d3.selectAll(".districts")
+       .style("fill", "#C1C1C1")
+    counted = countRows(dataset);
+
+    // set color scale on first load
     // colors from http://colorbrewer2.org/
-    var color = d3.scale.quantize()
-               .range(["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"])
-               .domain([
-                  d3.min(data, function(d) { return d.count; }),
-                  d3.max(data, function(d) { return d.count; })
-                ]);
-
+    // TODO: I want to change this into a continuous scale
+    if (initialLoad == true){
+        color.domain([
+                d3.min(counted, function(d) { return d.count; }),
+                d3.max(counted, function(d) { return d.count; })
+              ]);
+    };
+      
     // color the districts with datapoints
-    data.forEach(function(object){
+    counted.forEach(function(object){
       d3.select("#" + object.district)
         .style("fill", color(object.count))
     });
 
+    d3.selectAll(".districts:hover")
+      .style("fill", "yellow")
 };
 
 /*
