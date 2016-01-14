@@ -1,4 +1,4 @@
-date,type,source,author,region,district,location1,location2,type,label,description,text
+date,datatype,source,author,region,district,location1,location2,type,label,description,text
 42119,crowdsourced,news media,HR/Sitrep1,central,kathmandu,NA,norvic international hospital,observation,medical,people treated on the ground,"Norvic International Hospital - Doctors and nurses are treating dozens of people were gathered in the parking lot of Kathmandu's Norvic International Hospital, where thin mattresses had been spread on the ground."
 42119,crowdsourced,online community,HR/Sitrep1,central,kathmandu,NA,durbar square,observation,damage,square destroyed,Durbar Square destroyed - need medical help and manpower to pull people out
 42119,crowdsourced,online community,HR/Sitrep1,central,kathmandu,NA,durbar square,need,medical,medical help needed,Durbar Square destroyed - need medical help and manpower to pull people out

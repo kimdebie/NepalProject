@@ -254,6 +254,31 @@ function colorMap(dataset){
 
 function showBarchart(d){
         console.log("click!");
+
+        // the appropriate data is filtered out
+        var counts = {};
+        conventionaldata.forEach(function(r){
+          if (r.date <= date){
+          if (r.district == d.properties.name.toLowerCase()){
+            var key = r.label + r.datatype;
+            if (!counts[key]){
+              counts[key] = {
+                label: r.label,
+                datatype: r.datatype,
+                district: r.district,
+                count: 0
+              }
+            }
+            counts[key].count++;
+          }
+        }
+        });
+
+        var data = [];
+        Object.keys(counts).forEach(function(key) {
+            data.push(counts[key]);
+        });
+
         document.getElementById('barchart').innerHTML = 'A barchart will be added here for the following district: ' + d.properties.name.capitalize(true);
 };
 

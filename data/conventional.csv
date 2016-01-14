@@ -1,4 +1,4 @@
-date,type,source,author,region,district,location1,location2,type,label,description,text
+date,datatype,source,author,region,district,location1,location2,type,label,description,text
 42119,conventional,government,UN/Sitrep1,central,chitwan,NA,NA,observation,medical,well staffed,"""Chitwan and Pokhara which both are well staffed"""
 42119,conventional,NA,UN/Sitrep1,central,dolakha,NA,NA,observation,general assessment,area is affected,"""Among the most affected districts are"""
 42119,conventional,NA,UN/Sitrep1,western,gorkha,NA,NA,observation,general assessment,area is very affected,"""Most affected areas are Gorkha and Lamjung Districts (north-west of Kathmandu)."""
