@@ -16,6 +16,11 @@ html, body{
     margin: 0;
 }
 
+h1{
+  font-size: 20pt;
+
+}
+
 #wrapper {
   min-height:100%;
   position:relative;
@@ -112,4 +117,51 @@ div.tooltip p {
   margin-bottom: 25px;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  font: 10px sans-serif;
+  stroke: #000;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.axis{
+  color: black;
+}
 
+#barchartsvg{
+  display: block;
+  margin:auto;
+}
+
+/* Tooltip: from http://bl.ocks.org/Caged/6476579 */
+
+.d3-tip 
+{
+  font: 10px sans-serif;
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.d3-tip:after 
+{
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}

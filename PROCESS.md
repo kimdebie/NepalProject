@@ -38,3 +38,18 @@ For _next week_, I will focus on the map and linking data to it, based on filter
 _Today and yesterday_, I worked on getting the map element fully functional. This worked out well and is now done. I struggled a bit with saving data globally (so that I can access it from functions outside the d3 function) but I figured it out in the end. The appropriate filters (date and data type) are applied, and the data points for each district are counted accordingly. The only thing I might still want to improve about the map is the coloring - I now created 9 'buckets' of equal size, but relatively many districts stay on the whiter scale of the spectrum for a long time. Maybe the buckets should be of non-equal size, but this is something I can think about in a later stage. I also want to add a legend.
 
 For the rest of the week, I want to focus on implementing the bar chart element. 
+
+###day 8 and 9: 13/14 January
+
+Over the past two days, I focused on implementing the bar chart. What made this quite difficult is loading the data and making D3 work on the basis of objects instead of csv(-like) files. However the data is now loaded correctly, making a selection based on the correct date and district for each click.
+
+To-do list for this week:
+- labeling the axes for the bar chart
+- implementing a tooltip for the bar chart
+- adding legends to both the bar chart and the map
+- making sure the bar chart has a correct domain (now arbitrarily set at 20) 
+
+For a later stage (prettifying) re. bar chart and map: 
+- improving colors on the map: changing the buckets
+- updating the bar chart when the date slider is moved
+- making sure only districts with data can be clicked
