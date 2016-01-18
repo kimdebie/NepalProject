@@ -53,3 +53,7 @@ For a later stage (prettifying) re. bar chart and map:
 - improving colors on the map: changing the buckets
 - updating the bar chart when the date slider is moved
 - making sure only districts with data can be clicked
+
+###day 10 and 11: 15/18 January
+
+I fixed everything on the to do list(s) above. I had a few fights with the labels of the bar chart - they wouldn't display and I couldn't figure out why, but it turned out that this had to do with CSS. So, I learnt quite a bit about the order/priority with which CSS is applied to elements. Next to this, I wrote texts and found images for the info pages that are part of my website. I now consider the first three pages of my website as done (in terms of content) and tomorrow I want to focus on implementing histograms to compare data on the last page (I need to edit this in my design document; will try to do that tomorrow as well). Lastly, I need to complete the styling of my website.

@@ -11,14 +11,21 @@ html, body{
     color: #777;
     text-align: center;
     padding:0;
-    fill:none;
     height: 100%;
     margin: 0;
 }
 
 h1{
   font-size: 20pt;
+}
 
+h4{
+  font-weight: bold;
+}
+
+#content p, h1, h3, h4{
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #wrapper {
@@ -30,6 +37,10 @@ h1{
 }
 #content {
   padding-bottom: 40px; 
+  font-family: "Balto",Helvetica,Arial,"Nimbus Sans L",sans-serif;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 32px;
 }
 
 #footer {
@@ -41,9 +52,10 @@ h1{
   left:0;
 }
 
-#intro{
-  margin-left: 10%;
-  margin-right: 10%;
+#content{
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
 }
 
 #slider{
@@ -57,9 +69,10 @@ h1{
 }
 
 #dataselector{
-  width: 960px;
+  width: 650px;
   margin: auto;
   text-align: right;
+  font-size: 14px;
 }
 
 /*
@@ -79,6 +92,12 @@ h1{
   stroke: white;
   stroke-width: 1px;
 }
+
+
+.legend {                                                   
+  font-size: 10px;                                          
+}                                                           
+
 
 /*
  * Tooltip element (on the map)
@@ -105,33 +124,30 @@ div.tooltip p {
         line-height: 19px;
 }
 
+#nepalmap {
+  color: black;
+  font-size: 14px;
+}
+
 /*
  * Bar chart element
  */
 
-#barchart{
-  font-size: 14px;
-  font-weight: bold;
-  color: black;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
 .axis path,
 .axis line {
   fill: none;
-  font: 10px sans-serif;
-  stroke: #000;
-  stroke-width: 1px;
+  stroke: black;
+  stroke-width: 1.5;
   shape-rendering: crispEdges;
 }
-.axis{
-  color: black;
+
+.bar:hover{
+  fill: green;
 }
 
-#barchartsvg{
-  display: block;
-  margin:auto;
+.tick{
+  fill: black;
+  font: 11px sans-serif;
 }
 
 /* Tooltip: from http://bl.ocks.org/Caged/6476579 */
