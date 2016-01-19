@@ -3,11 +3,14 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="css/c3.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/data.css"/>
 		<meta charset="utf-8"/>
 		<title>Explore the data</title>
 		<script src="js/jsbackup.js"></script>
 		<script src="js/d3backup.js"></script>
+		<script src="js/c3.min.js"></script>
 		<script src="js/queuebackup.js"></script>
 	</head>
 	<body>
@@ -33,8 +36,11 @@
 
 			<div id="content">
 				<h4>The data</h4>
-				<p>The graphs you see here and on the home page display data from two sources: conventional data, collected in a top-down manner by aid organizations like the United Nations (see <a href=”crowdsourcing.html”>here</a> for more information). This data is made public in the form of ‘situational reports’, which are published daily or every two days and contain everything that is known about the situation on the ground. The crowdsourced data that this project builds on comes from <b><a href="www.humanityroad.org">Humanity Road</a></b>. This NGO also publishes situational reports, but bases them on crowdsourced data.
-				<div id="linegraph"><script type="text/javascript" src="js/linegraph.js"></script></div>
+				<p>The graphs you see here and on the home page display data from two sources: conventional data, collected in a top-down manner by aid organizations like the United Nations (see <a href=”crowdsourcing.html”>here</a> for more information). This data is made public in the form of 'situational reports', which are published daily or every two days and contain everything that is known about the situation on the ground. The crowdsourced data that this project builds on comes from <b><a href="www.humanityroad.org">Humanity Road</a></b>. This NGO also publishes situational reports, but bases them on crowdsourced data.
+				<p>This page allows you to explore data over time. If you'd rather analyze data per district, go to the <a href="home.html">homepage</a>.</p>
+				<div id="chart"><script type="text/javascript" src="js/linegraph.js"></script></div>
+				<p>To see what data is available on a given date, click that date to show a barchart!</p>
+				<div id="barchart"></div>
 			</div>
 
 			<div id="footer">

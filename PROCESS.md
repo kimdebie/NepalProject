@@ -57,3 +57,7 @@ For a later stage (prettifying) re. bar chart and map:
 ###day 10 and 11: 15/18 January
 
 I fixed everything on the to do list(s) above. I had a few fights with the labels of the bar chart - they wouldn't display and I couldn't figure out why, but it turned out that this had to do with CSS. So, I learnt quite a bit about the order/priority with which CSS is applied to elements. Next to this, I wrote texts and found images for the info pages that are part of my website. I now consider the first three pages of my website as done (in terms of content) and tomorrow I want to focus on implementing histograms to compare data on the last page (I need to edit this in my design document; will try to do that tomorrow as well). Lastly, I need to complete the styling of my website.
+
+###day 12: 19 January
+
+Today, I implemented a cumulative line chart - instead of a histogram. I think this communicates the data better in the end than the histogram I planned to build first, as I can now display trends for both data types (and for the two datasets combined). I used the C3 library for this (which builds on top of D3) which made it a lot easier to implement an interactive multiple line graph from the arrays I had - which seemed very tricky to do using pure D3. I also implemented a bar chart so that the entire page now allows the user to explore the data per _date_. So, the home page is now for exploring data per _district_, and this page is for exploring data over _time_.

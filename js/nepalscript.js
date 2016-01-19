@@ -4,7 +4,7 @@
  * Last updated: 18 January 2016
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
- * 25 April 2015 earthquake.
+ * 25 April 2015 earthquake. Bar charts displayed with data per district on-click.
  * 
  */
 

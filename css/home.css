@@ -1,0 +1,72 @@
+/* Date slider */
+
+#slider{
+  width: 500px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+#slidervalue{
+  margin-bottom: 25px;
+}
+
+#dataselector{
+  width: 650px;
+  margin: auto;
+  text-align: right;
+  font-size: 14px;
+}
+
+/*
+ * Map element
+ */
+
+.container{
+  fill: #C6CCCE;
+}
+
+.districts{
+  fill: #C1C1C1;
+}
+
+.district-boundary{
+  fill: none;
+  stroke: white;
+  stroke-width: 1px;
+}
+
+
+.legend {                                                   
+  font-size: 10px;                                          
+} 
+
+#nepalmap {
+  color: black;
+  font-size: 14px;
+}
+
+/*
+ * Tooltip element (on the map)
+ */
+
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+div.tooltip.hidden {
+        display: none;
+}
+
+div.tooltip p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 19px;
+}
+
