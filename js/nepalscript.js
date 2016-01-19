@@ -1,7 +1,7 @@
 /*
  *
  * Kim de Bie (11077379) - 5 January 2016
- * Last updated: 14 January 2016
+ * Last updated: 18 January 2016
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake.
@@ -279,6 +279,8 @@ function showBarchart(d){
         Object.keys(counts).forEach(function(key){
           barchartdata.push([counts[key].conventional, counts[key].crowdsourced]);
         })
+
+        console.log(barchartdata)
 
         var data = d3.transpose(barchartdata)
 
