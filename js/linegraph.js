@@ -9,22 +9,21 @@
  */
 
 var combineddata;
+var colors = ["red", "green", "blue"];
+var types = ["combined", "crowdsourced", "conventional"]
 
 // http://bl.ocks.org/mbostock/3883245
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
+    width = 800 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
-
-var formatDate = d3.time.format("%d-%b-%y");
-
-
 
 d3.csv("../data/combined.csv", function(error, data) {
   if (error) throw error;
 
+  // counting the rows per day/datatype
   combineddata = countRows(adaptDate(data))
-  console.log(combineddata)
 
+  // preparing data for graph 
   var mappeddata = combineddata.map(function(d) {
   	return {
   		date: d[0],
@@ -34,15 +33,14 @@ d3.csv("../data/combined.csv", function(error, data) {
   	}
   })
 
-  console.log(mappeddata)
-
   var x = d3.time.scale()
     .range([0, width])
     .domain(d3.extent(mappeddata, function(d) { return d.date }));
 
   var y = d3.scale.linear()
     .range([height, 0])
-    .domain([0, d3.max(mappeddata, function(d) { return d.combined })]);
+    .domain([0, d3.max(mappeddata, function(d) { return d.combined })])
+    .nice();
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -52,9 +50,17 @@ d3.csv("../data/combined.csv", function(error, data) {
     .scale(y)
     .orient("left");
 
-  var line = d3.svg.line()
+  var combinedline = d3.svg.line()
     .x(function(d) { return x(d.date) })
     .y(function(d) { return y(d.combined) });
+
+  var conventionalline = d3.svg.line()
+    .x(function(d) { return x(d.date) })
+    .y(function(d) { return y(d.conventional) });
+
+  var crowdsourcedline = d3.svg.line()
+    .x(function(d) { return x(d.date) })
+    .y(function(d) { return y(d.crowdsourced) });
 
   var svg = d3.select("#linegraph").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -80,26 +86,56 @@ d3.csv("../data/combined.csv", function(error, data) {
   svg.append("path")
   	  .datum(mappeddata)
       .attr("class", "line")
-      .attr("d", line)
-      .attr("stroke", "#ff0000");
-});
+      .attr("d", combinedline)
+      .attr("stroke", colors[0]);
 
-
-
-  /*
-
-    svg.append("path")
-      .datum(data)
+  svg.append("path")
+  	  .datum(mappeddata)
       .attr("class", "line")
-      .attr("d", line);
+      .attr("d", crowdsourcedline)
+      .attr("stroke", colors[1]);
+  
+  svg.append("path")
+  	  .datum(mappeddata)
+      .attr("class", "line")
+      .attr("d", conventionalline)
+      .attr("stroke", colors[2]);
+
+  svg.selectAll("g.dot")
+      .data(mappeddata)
+      .enter().append("g")
+      .attr("class", "dot")
+      .selectAll("circle")
+      .data(function(d) { return d.Data; })
+      .enter().append("circle")
+      .attr("r", 6)
+      .attr("cx", function(d,i) {  return x(d.Date); })
+      .attr("cy", function(d,i) { return y(d.Value); })   
+
+
+  // adding a legend
+        var legend = svg.selectAll("g.legend")
+          .data([1, 2, 3])
+          .enter().append("g")
+          .attr("class", "legend");
+
+        var ls_w = 20, ls_h = 20;
+        var legend_labels = types;
+
+        legend.append("rect")
+          .attr("x", width-90)
+          .attr("y", function(d, i){ return (height - (i*ls_h) - 2*ls_h);})
+          .attr("width", ls_w)
+          .attr("height", ls_h)
+          .style("fill", function(d, i) { return colors[i]; })
+          .style("opacity", 1);
+
+        legend.append("text")
+          .style("text-anchor", "start")
+          .attr("x", width-65)
+          .attr("y", function(d, i){ return (height - (i*ls_h) - ls_h - 4);})
+          .text(function(d, i){ return legend_labels[i]; });
 });
-
-function type(d) {
-  d.date = formatDate.parse(d.date);
-  d.close = +d.close;
-  return d;
-  */
-
 
 
 /*
@@ -147,7 +183,6 @@ function countRows(dataset){
 
     counted.sort(sortFunction);
     counted = d3.transpose(counted);
-    console.log(counted[0].length)
 
     var countedcumulative = []
     for (i = 0; i < counted[0].length; i++) {

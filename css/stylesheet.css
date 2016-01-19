@@ -181,3 +181,9 @@ div.tooltip p {
   top: 100%;
   left: 0;
 }
+
+/*Line graph*/
+
+.line{
+  fill: none;
+}
