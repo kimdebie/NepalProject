@@ -2,15 +2,16 @@
 
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="css/fonts.css"/>	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="css/c3.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
 		<link rel="stylesheet" type="text/css" href="css/data.css"/>
 		<meta charset="utf-8"/>
-		<title>Explore the data</title>
+		<title>The 2015 Nepal Earthquake</title>
 		<script src="js/jsbackup.js"></script>
 		<script src="js/d3backup.js"></script>
-		<script src="js/c3.min.js"></script>
+		<div id="c3script"><script src="js/c3.js"></script></div>
 		<script src="js/queuebackup.js"></script>
 	</head>
 	<body>
@@ -25,26 +26,24 @@
 				     		<li><a href="home.html">Home</a></li>
 				      		<li><a href="earthquake.html">The earthquake</a></li>
 				      		<li><a href="crowdsourcing.html">Crowdsourced data?</a></li> 
-				      		<li class="active"><a href="data.html">Comparing the data</a></li> 
+				      		<li class="active"><a href="data.html">Data over time</a></li> 
 						</ul>
 					</div>
 				</nav>
 
-				<h1>Understanding the data</h1>
-				<h3>Further analysis</h3>
+				<h1>Comparing the data over time</h1>
 			</div>
 
 			<div id="content">
-				<h4>The data</h4>
-				<p>The graphs you see here and on the home page display data from two sources: conventional data, collected in a top-down manner by aid organizations like the United Nations (see <a href=”crowdsourcing.html”>here</a> for more information). This data is made public in the form of 'situational reports', which are published daily or every two days and contain everything that is known about the situation on the ground. The crowdsourced data that this project builds on comes from <b><a href="www.humanityroad.org">Humanity Road</a></b>. This NGO also publishes situational reports, but bases them on crowdsourced data.
-				<p>This page allows you to explore data over time. If you'd rather analyze data per district, go to the <a href="home.html">homepage</a>.</p>
+				<p>This page allows you to explore data over time. If you'd rather analyze data per district, go to the <a href="home.html">homepage</a>. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
+				<h3>Number of reports per day</h3>
 				<div id="chart"><script type="text/javascript" src="js/linegraph.js"></script></div>
 				<p>To see what data is available on a given date, click that date to show a barchart!</p>
 				<div id="barchart"></div>
 			</div>
 
 			<div id="footer">
-				<p>Kim de Bie (11077379), University of Amsterdam, January 2016</p>
+				<p id="footertext">Kim de Bie (11077379), University of Amsterdam, January 2016</p>
 			</div>
 		</div>
 	</body>

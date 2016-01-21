@@ -1,7 +1,7 @@
 /*
  *
  * Kim de Bie (11077379) - 5 January 2016
- * Last updated: 18 January 2016
+ * Last updated: 21 January 2016
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake. Bar charts displayed with data per district on-click.
@@ -17,10 +17,10 @@ var initialLoad = true;
 // from colorbrewer2.org
 var color = d3.scale.threshold()
     .domain([5, 10, 15, 20, 25, 30, 35, 40, 245])
-    .range(["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"])
+    .range(["#EFEE69", "#B6DB6B", "#84C671", "#5AAE76", "#389576", "#237B71", "#1F6165", "#214854", "#21313E"])
 
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30, 35, 40]
-var legend_labels = ["<5", "5+", "10+", "15+", "20+", "25+", "30+", "35+", ">40"]
+var legend_labels = ["<5", "5+", "10+", "15+", "20+", "25+", "30+", "35+", "40+"]
 
 // loading the data
 queue()
@@ -150,6 +150,13 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
       .attr("x", 50)
       .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
       .text(function(d, i){ return legend_labels[i]; });
+
+    svg.append("text")
+    .style("text-anchor", "end")
+    .attr("id", "maptitle")
+    .attr("x", 610)
+    .attr("y", 50)
+    .text("Data density: number of reports per district")
 };
 
 
@@ -158,20 +165,20 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
  * Functions to determine what type of data should be displayed
  */
 
-function isChecked(){
-    if($('#conventional').prop('checked') && $('#crowdsourced').prop('checked')){
+function isChecked(button){
+    if(button.value == "both") {
         type = combineddata;
         colorMap(combineddata);
-    } else if ($('#conventional').prop('checked')) {
+    } else if (button.value == "conventional") {
         type = conventionaldata;
         colorMap(conventionaldata);
-    } else if ($('#crowdsourced').prop('checked')) {
+    } else if (button.value == "crowdsourced") {
         type = crowdsourceddata;
         colorMap(crowdsourceddata);
     } else {
         d3.selectAll(".districts")
           .style("fill", "#C1C1C1")
-        alert('Select at least one data type!');
+        alert(button.value);
     };
 };
       
@@ -280,8 +287,6 @@ function showBarchart(d){
           barchartdata.push([counts[key].conventional, counts[key].crowdsourced]);
         })
 
-        console.log(barchartdata)
-
         var data = d3.transpose(barchartdata)
 
         // displaying the barchart
@@ -289,10 +294,10 @@ function showBarchart(d){
         // and http://bl.ocks.org/mbostock/3887051
 
         // declaring variables
-        var padding = { top: 30, bottom: 90, left: 30, right: 30 };
-        var width = 640 - padding.left - padding.right;
-        var height = 350 - padding.top - padding.bottom; 
-        var colors = ["#E41A1C", "#377EB8"]
+        var padding = { top: 60, bottom: 90, left: 50, right: 30 };
+        var width = 650 - padding.left - padding.right;
+        var height = 380 - padding.top - padding.bottom; 
+        var colors = ["#497285", "#F78536"]
 
         var numberGroups = 13; // groups
         var numberSeries = 2;  // series in each group
@@ -316,18 +321,21 @@ function showBarchart(d){
         var xAxis = d3.svg.axis()
             .scale(x0)
             .orient("bottom")
-            .tickFormat(function(d, i){ return labels[i]});
+            .tickFormat(function(d, i){ return labels[i]})
+            .outerTickSize(0);
 
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
             .tickFormat(d3.format("d"))
+            .tickSize(0)
             .tickSubdivide(0);
 
         // selecting the appropriate DOM element
         var chart = d3.select("#barchart").append("svg")
             .attr("width", width+padding.left+padding.right)
             .attr("height", height+padding.top+padding.bottom)
+            .attr("id", "barchartcontainer")
           .append("g")
             .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
 
@@ -335,7 +343,7 @@ function showBarchart(d){
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-              return "<strong>Number of Reports:</strong> <span style='color:red'>" + d + "</span>";
+              return "<strong>Reports: " + d + "</span>";
             })
 
         var series = chart.selectAll(".series")
@@ -351,11 +359,14 @@ function showBarchart(d){
                 .attr("class", "bar")
                 .attr("x", 0)
                 .attr("y", y)
-                .attr("width", x1.rangeBand())
-                .attr("height", function (d) { return height - y(d); })
                 .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
                 .on('mouseover', tip.show)
-                .on('mouseout', tip.hide);
+                .on('mouseout', tip.hide)
+                .attr("width", x1.rangeBand())
+                .attr("height", 0)
+                .transition()
+                .delay(500)
+                .attr("height", function (d) { return height - y(d); });
                 
         chart.append("g")
             .attr("class", "axis")
@@ -370,24 +381,26 @@ function showBarchart(d){
         chart.append("text")
             .attr("x", width/2)
             .attr("y", 300)
+            .attr("class", "axis")
             .style("text-anchor", "middle")
-            .style("font-size", "10px")
             .text("Category")
 
         chart.append("g")
             .attr("class", "axis")
-            .call(yAxis)
-          .append("text")
+            .call(yAxis);
+
+        chart.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
+            .attr("class", "axis")
+            .attr("x", -30)
+            .attr("y", -20)
             .style("text-anchor", "end")
-            .style("font-size", "10px")
             .text("Number of Reports");
 
         chart.append("text")
           .attr("x", width/2)
           .attr("y", -10)
+          .attr("id", "barcharttitle")
           .style("text-anchor", "middle")
           .text("Reports for " + d.properties.name.capitalize(true) + " on " + titleDate(date))  
 

@@ -3,6 +3,7 @@
 <html>
 
 	<head>
+		<link rel="stylesheet" type="text/css" href="css/fonts.css"/>
 		<link rel="stylesheet" type="text/css" href="css/nouislider.css"/>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
@@ -31,34 +32,35 @@
 				     		<li class="active"><a href="home.html">Home</a></li>
 				      		<li><a href="earthquake.html">The earthquake</a></li>
 				      		<li><a href="crowdsourcing.html">Crowdsourced data?</a></li> 
-				      		<li><a href="data.html">Comparing the data</a></li> 
+				      		<li><a href="data.html">Data over time</a></li> 
 						</ul>
 					</div>
 				</nav>
 				<h1>The 2015 Nepal Earthquake</h1>
-				<h3>Comparing Conventional and Crowdsourced Data</h3>
+				<h2>Comparing Conventional and Crowdsourced Data</h2>
 			</div>
 
 			<div id="content">
 				<p id="intro">Can crowdsourced data from sources such as Twitter and Facebook help us respond better when disaster strikes? Compare how much aid organizations knew through old-fashioned data collection to what they could have known more, if they would have relied on modern information sources. Navigate the tabs above for more information.</p>
-				<p> On this page, you can navigate data per <i>district</i>. Rather explore the data by date? Click <a href="data.html">Comparing the data</a> in the menu above.</p>
+				<p> On this page, you can navigate data per <u>district</u>. Rather explore the data by date? Click <a href="data.html">Data over time</a> in the menu above. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
 
 				<div id="slider"><script src="js/nouislider.js"></script></div>
 				<div id="slidervalue"></div>
 
 				<div id="dataselector">
-					<input id="conventional" type="checkbox" name="conventional" onclick="isChecked()" checked>Conventional</input>
-					<input id="crowdsourced" type="checkbox" name="crowdsourced" onclick="isChecked()" checked>Crowdsourced</input>
+					<input id="conventional" class="button" type="button" value="conventional" onclick="isChecked(this)"></input>
+					<input id="crowdsourced" class="button" type="button" value="crowdsourced" onclick="isChecked(this)"></input>
+					<input id="both" class="button" type="button" value="both" onclick="isChecked(this)"></button>
 				</div>
 
-				<div id="nepalmap">Data density: number of reports per district<br><script src="js/nepalscript.js"></script></div>
+				<div id="nepalmap"><script src="js/nepalscript.js"></script></div>
 				<div id="explainer"><p>Click a district to explore the available data!</p></div>
 
 				<div id="barchart"></div>
 			</div>
 
 			<div id="footer">
-				<p>Kim de Bie (11077379), University of Amsterdam, January 2016</p>
+				<p id="footertext">Kim de Bie (11077379), University of Amsterdam, January 2016</p>
 			</div>
 
 		</div>

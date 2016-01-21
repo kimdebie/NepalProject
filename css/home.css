@@ -8,6 +8,7 @@
 
 #slidervalue{
   margin-bottom: 25px;
+  font-size: 14px;
 }
 
 #dataselector{
@@ -22,7 +23,7 @@
  */
 
 .container{
-  fill: #C6CCCE;
+  fill: #e2e6e7;
 }
 
 .districts{
@@ -35,14 +36,21 @@
   stroke-width: 1px;
 }
 
-
 .legend {                                                   
-  font-size: 10px;                                          
+  font-size: 12px;                                          
 } 
 
 #nepalmap {
   color: black;
   font-size: 14px;
+}
+
+#maptitle{
+  font: 25px 'Oswald' sans-serif;
+}
+
+.button{
+  font: 15px 'Oswald' sans-serif;
 }
 
 /*
@@ -66,7 +74,7 @@ div.tooltip.hidden {
 
 div.tooltip p {
         margin: 0;
-        font-size: 14px;
+        font: 14px 'Arvo' serif;
         line-height: 19px;
 }
 

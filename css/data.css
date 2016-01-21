@@ -1,0 +1,23 @@
+h3 {
+	font: 25px 'Oswald' sans-serif;
+	padding-bottom: 0;
+}
+.c3-legend-item {
+	font: 13px 'Oswald' sans-serif;
+}
+
+#chart .c3-line-conventional {
+  stroke-width: 5px;
+}
+
+#chart .c3-line-crowdsourced {
+  stroke-width: 5px;
+}
+
+#chart .c3-line-combined {
+  stroke-width: 5px;
+}
+
+.c3-axis {
+	font: 14px 'Oswald' sans-serif;
+}

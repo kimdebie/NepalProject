@@ -1,7 +1,7 @@
 /*
  *
  * Kim de Bie (11077379) - 19 January 2016
- * Last updated: 19 January 2016
+ * Last updated: 21 January 2016
  *
  * Displays a line graph with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake in Nepal. Bar charts displayed with data per day on-click.
@@ -9,13 +9,10 @@
  */
 
 var combineddata, data_barchart;
-var colors = ["red", "green", "blue"];
-var types = ["combined", "crowdsourced", "conventional"]
 
-// http://bl.ocks.org/mbostock/3883245
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 800 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+/*
+ * Line graph
+ */
 
 d3.csv("../data/combined.csv", function(error, data) {
   if (error) throw error;
@@ -23,22 +20,52 @@ d3.csv("../data/combined.csv", function(error, data) {
   // counting the rows per day/datatype
   data_barchart = barchartDate(data);
   combineddata = countRows(adaptDate(data));
+  var colors = ["red", "green", "yellow"]
 
+  // using C3.js
   var chart = c3.generate({
+      padding: {
+        top: 0,
+        right: 50,
+        bottom: 30,
+        left: 50,
+      },
+      size: {
+        height: 420,
+        width: 650
+      },
 	    data: {
 	        x: 'dates',
 	        columns: combineddata,
 	        onclick: showBarchart
 	    },
-	    axis: {
-	        x: {
-	            type: 'timeseries',
-	            tick: {
-	                format: '%Y-%m-%d'
-	            }
-	        }
-	    }
-
+      axis: {
+          x: {
+              type: 'timeseries',
+              tick: {
+                  format: '%d %B',
+                  outer: false,
+                  count: 11,
+              },
+              height: 50,
+              label: {
+                 text: 'Date',
+                 position: 'outer-center',
+              }
+          },
+          y: {
+            tick: {
+              outer: false
+            },
+            label: {
+              text: 'Number of reports',
+              position: 'outer-center',
+            }
+          }
+      },
+      color: {
+          pattern: ['#497285', '#F78536', '#f1c40f']
+      }   
 	});
 
 });
@@ -91,10 +118,10 @@ function showBarchart(date){
     // and http://bl.ocks.org/mbostock/3887051
 
     // declaring variables
-    var padding = { top: 30, bottom: 90, left: 30, right: 30 };
-    var width = 640 - padding.left - padding.right;
-    var height = 350 - padding.top - padding.bottom; 
-    var colors = ["#E41A1C", "#377EB8"]
+    var padding = { top: 60, bottom: 90, left: 50, right: 30 };
+    var width = 650 - padding.left - padding.right;
+    var height = 380 - padding.top - padding.bottom; 
+    var colors = ["#497285", "#F78536"]
     
     var numberGroups = 13; // groups
     var numberSeries = 2;  // series in each group
@@ -118,13 +145,15 @@ function showBarchart(date){
     var xAxis = d3.svg.axis()
         .scale(x0)
         .orient("bottom")
-        .tickFormat(function(d, i){ return labels[i]});
+        .tickFormat(function(d, i){ return labels[i]})
+        .outerTickSize(0);
 
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
         .tickFormat(d3.format("d"))
-        .tickSubdivide(0);
+        .tickSubdivide(0)
+        .tickSize(0);
 
     // selecting the appropriate DOM element
     var chart = d3.select("#barchart").append("svg")
@@ -154,6 +183,9 @@ function showBarchart(date){
             .attr("x", 0)
             .attr("y", y)
             .attr("width", x1.rangeBand())
+            .attr("height", 0)
+            .transition()
+            .delay(500)
             .attr("height", function (d) { return height - y(d); })
             .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
             //.on('mouseover', tip.show)
@@ -172,25 +204,26 @@ function showBarchart(date){
         chart.append("text")
             .attr("x", width/2)
             .attr("y", 300)
+            .attr("class", "axis")
             .style("text-anchor", "middle")
-            .style("font-size", "10px")
             .text("Category")
 
         chart.append("g")
             .attr("class", "axis")
-            .call(yAxis)
-          .append("text")
+            .call(yAxis);
+       
+        chart.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
+            .attr("class", "axis")
+            .attr("x", -30)
+            .attr("y", -20)
             .style("text-anchor", "end")
-            .style("font-size", "10px")
-            .text("Number of Reports");
+            .text("Number of reports");
 
         chart.append("text")
           .attr("x", width/2)
           .attr("y", -10)
-          .attr("id", "title")
+          .attr("id", "barcharttitle")
           .style("text-anchor", "middle")
           .text("Reports for " + titleDate(date))  
 

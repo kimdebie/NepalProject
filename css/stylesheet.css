@@ -4,11 +4,10 @@
 
 html, body {
     background: #ffffff;
-    font-family: sans-serif;
-    font-size: 11pt;
+    font-size: 11px 'Playfair' serif;
     font-weight: 300;
     line-height: 1.75em;
-    color: #777;
+    color: black;
     text-align: center;
     padding:0;
     height: 100%;
@@ -16,11 +15,16 @@ html, body {
 }
 
 h1 {
-  font-size: 20pt;
+  font: 35px 'Arvo' serif;
+  font-weight: bold;
+}
+
+h2, h4 {
+  font: 25px 'Arvo' serif;
 }
 
 h4 {
-  font-weight: bold;
+  font-weight: bold; 
 }
 
 #content p, h1, h3, h4 {
@@ -37,9 +41,7 @@ h4 {
 }
 #content {
   padding-bottom: 40px; 
-  font-family: "Balto",Helvetica,Arial,"Nimbus Sans L",sans-serif;
-  font-size: 1.3em;
-  font-weight: 400;
+  font: 18px 'Slabo' serif;
   line-height: 32px;
   margin-left: auto;
   margin-right: auto;
@@ -55,6 +57,10 @@ h4 {
   left:0;
 }
 
+#footertext {
+    font: 12px 'Arvo' serif;
+    padding-top: 10px;
+}
 
 /*
  * Bar chart element
@@ -68,21 +74,25 @@ h4 {
   shape-rendering: crispEdges;
 }
 
+.axis {
+  font: 14px 'Oswald' sans-serif;
+}
+
 .bar:hover{
-  fill: green;
+  fill: #2B4450;
 }
 
 .tick {
   fill: black;
-  font: 11px sans-serif;
+  font: 11px 'Oswald' sans-serif;
 }
 
-#title{
-  font: 14px sans-serif;
+#barcharttitle{
+  font: 25px 'Oswald' sans-serif;
 }
 
 .legend {
-  font: 12px sans-serif;
+  font: 12px 'Oswald' sans-serif;
 }
 
 /* Tooltip: from http://bl.ocks.org/Caged/6476579 */
@@ -113,4 +123,10 @@ h4 {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+/*Navigation bar*/
+
+.navbar{
+  font: 15px 'Arvo' serif;
 }
