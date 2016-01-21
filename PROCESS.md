@@ -63,3 +63,8 @@ I fixed everything on the to do list(s) above. I had a few fights with the label
 Today, I implemented a cumulative line chart - instead of a histogram. I think this communicates the data better in the end than the histogram I planned to build first, as I can now display trends for both data types (and for the two datasets combined). I used the C3 library for this (which builds on top of D3) which made it a lot easier to implement an interactive multiple line graph from the arrays I had - which seemed very tricky to do using pure D3. I also implemented a bar chart so that the entire page now allows the user to explore the data per _date_. So, the home page is now for exploring data per _district_, and this page is for exploring data over _time_.
 
 Something I still want to do is implementing the _tooltip_ on the second bar chart (doesn't work correctly yet) and _styling_.
+
+
+###day 13 and 14: 20/21 January
+
+I spent the past two days on styling my website. I looked into different fonts, colours and the general layout of the website and I am quite happy with the results. I also implemented nice transitions for the bar charts which makes them look quite smooth now! Something that is unfortunately still not working is the tooltip that is implemented on the line & bar chart page. The line chart uses C3 and it seems like D3 and C3 code interfere with each other. I'm not sure how to fix that yet but I'll hopefully figure it out.
