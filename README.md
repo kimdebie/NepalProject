@@ -1,10 +1,10 @@
-# Comparing Crowdsourced and Conventional Data in the Emergency Response
+## Comparing Crowdsourced and Conventional Data in the Emergency Response
 ### A Case Study of the 2015 Nepal Earthquake
-#### Kim de Bie, Project Proposal, 4 January 2016
+#### Kim de Bie, 27 January 2016
 
-_**Short overview**_
+#####_**Overview**_
 
-*I am planning to build a data visualization which allows the user to compare conventional and crowdsourced data in the context of the aftermath of the 2015 Nepal earthquake. The user will be able to explore to what extent crowdsourced data is useful in the disaster response, and where it can complement or even replace conventional data. [I will be writing my bachelor's thesis on this topic; this visualization builds on data that I will analyse in my thesis, but this project is separate and the visualization will not be a (graded) part of my thesis.]*
+Crowdsourced data, such as Twitter messages or Facebook posts, has a large potential to improve the emergency response after natural disasters. This data is said to be available quickly, cheaply and from more remote locations. Nonetheless, aid organizations are reluctant to make use of crowdsourced data: they believe their conventional data collection mechanisms do the job well enough. This website aims to give an overview of both crowdsourced and conventional data as produced during the earthquake in Nepal in 2015. In this way, I hope to contribute our understanding of the two types of data and where both are useful. 
 
 _**Problem description**_
 
