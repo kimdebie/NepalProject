@@ -32,7 +32,7 @@ To place the data visualizations in a context, the website contains two pages th
 
 #####External sources
 
-This project builds on various JavaScript libraries, including [D3.js](http://d3js.org/), [C3.js](http://c3js.org/) and [NoUISlider](http://refreshless.com/nouislider/). In addition, this project couldn't have been created without the help of countless tutorials and answered questions on websites such as StackOverflow. The specific authors of tutorials and answers have been attributed throughout the code. 
+This project builds on various JavaScript libraries, including [D3.js](http://d3js.org/), [C3.js](http://c3js.org/), [Bootstrap](https://getbootstrap.com/) and [NoUISlider](http://refreshless.com/nouislider/). In addition, this project couldn't have been created without the help of countless tutorials and answered questions on websites such as StackOverflow. The specific authors of tutorials and answers have been attributed throughout the code. 
 
 Photos included are from [Getty Images](http://www.gettyimages.com), [the New York Times](http://www.nytimes.com/), [IRevolution.net](http://irevolutions.org/) and [Kathmandu Living Labs](http://www.kathmandulivinglabs.org/). Moreover, the data used for this project is based on situational reports as published by [UNOCHA](http://www.unocha.org/nepal) and [Humanity Road](http://humanityroad.org/). 
 
