@@ -8,8 +8,10 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
 		<link rel="stylesheet" type="text/css" href="css/home.css"/>
+
 		<meta charset="utf-8"/>
 		<title>The 2015 Nepal Earthquake</title>
+
 		<script src="js/jsbackup.js"></script>
 		<script src="js/d3backup.js"></script>
 		<script src="js/topojson.v1.min.js"></script>
@@ -41,19 +43,19 @@
 			</div>
 
 			<div id="content">
-				<p id="intro">Can crowdsourced data from sources such as Twitter and Facebook help us respond better when disaster strikes? Compare how much aid organizations knew through old-fashioned data collection to what they could have known more, if they would have relied on modern information sources. Navigate the tabs above for more information.</p>
-				<p> On this page, you can navigate data per <u>district</u>. Rather explore the data by date? Click <a href="data.html">Data over time</a> in the menu above. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
+				<p id="intro">Can <a href="crowdsourcing">crowdsourced data</a> from sources such as Twitter and Facebook help us respond better when disaster strikes? Compare how much aid organizations knew through old-fashioned data collection to what they could have known more, if they would have relied on modern information sources. Navigate the tabs above for more information.</p>
+				<p> On this page, you can navigate data per <b>district</b> to explore dimensions such as speed and spread of the data. Rather explore the total inflow of data by <b>date</b>? Click <a href="data.html">data over time</a> in the menu above. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
 
 				<div id="slider"><script src="js/nouislider.js"></script></div>
 				<div id="slidervalue"></div>
 
 				<div id="dataselector">
-					<input id="conventional" class="button" type="button" value="conventional" onclick="isChecked(this)"></input>
-					<input id="crowdsourced" class="button" type="button" value="crowdsourced" onclick="isChecked(this)"></input>
-					<input id="both" class="button" type="button" value="both" onclick="isChecked(this)"></button>
+					<input id="conventional" class="button" type="button" value="conventional" onclick="isClicked(this)"></input>
+					<input id="crowdsourced" class="button" type="button" value="crowdsourced" onclick="isClicked(this)"></input>
+					<input id="both" class="button" type="button" value="both" onclick="isClicked(this)"></button>
 				</div>
 
-				<div id="nepalmap"><script src="js/nepalscript.js"></script></div>
+				<div id="nepalmap"><script src="js/homepage.js"></script></div>
 				<div id="explainer"><p>Click a district to explore the available data!</p></div>
 
 				<div id="barchart"></div>

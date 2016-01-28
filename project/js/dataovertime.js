@@ -1,13 +1,17 @@
 /*
  *
  * Kim de Bie (11077379) - 19 January 2016
- * Last updated: 21 January 2016
+ * Last updated: 28 January 2016
+ * Minor Programmeren: Programmeerproject
+ * University of Amsterdam
  *
  * Displays a line graph with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake in Nepal. Bar charts displayed with data per day on-click.
+ * Functions for drawing the line graph and bar charts and selecting/processing the data. 
  * 
  */
 
+// setting global variables to be used througout the program
 var combineddata, data_barchart;
 
 /*
@@ -22,7 +26,8 @@ d3.csv("../data/combined.csv", function(error, data) {
   combineddata = countRows(adaptDate(data));
   var colors = ["red", "green", "yellow"]
 
-  // using C3.js
+  // drawing the line graph using the C3.js library
+  // from www.c3js.org
   var chart = c3.generate({
       padding: {
         top: 0,
@@ -71,16 +76,18 @@ d3.csv("../data/combined.csv", function(error, data) {
 });
 
 /*
- * Bar chart
+ * On click (on the line graph): displaying a bar chart
+ * (This function is similar to that in homepage.js)
  */
 
 function showBarchart(date){
 
-	// first, cleaning the DOM element (deleting possible existing bar charts and tooltips)
+	  // first, cleaning the DOM element (deleting possible existing bar charts and tooltips)
     document.getElementById('barchart').innerHTML = '';
     var date = new Date(date.x.setHours(date.x.getHours()+2));
 
     // filtering the appropriate data
+    // each category gets data at count zero
     var counts = {};
     var labels = ["medical", "damage", "search&rescue", "general assessment", "transport", "nutrition", "sanitation", "children", "casualties", "shelter", "communication", "population behavior", "shocks"];
     for (var i = 0; i < labels.length; i++){
@@ -91,6 +98,7 @@ function showBarchart(date){
          }
     };
 
+    // adding counts to the appropriate category for each data point
     data_barchart.forEach(function(r){
         if (new Date(r.date) <= date){
             if (r.district !== 'NA'){
@@ -142,12 +150,14 @@ function showBarchart(date){
         .range([height, 0])
         .nice();
 
+    // setting the x-axis
     var xAxis = d3.svg.axis()
         .scale(x0)
         .orient("bottom")
         .tickFormat(function(d, i){ return labels[i]})
         .outerTickSize(0);
 
+    // setting the y-axis
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
@@ -162,96 +172,110 @@ function showBarchart(date){
       .append("g")
         .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
 
-    /*var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(function(d) {
-          return "<strong>Number of Reports:</strong> <span style='color:red'></span>";
-        })*/
-
     var series = chart.selectAll(".series")
         .data(data)
         .enter().append("g")
 	        .attr("class", "series")
 	        .attr("fill", function (d, i) { return colors[i]; })
-	        .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
+	        .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; })
+          .attr("title", function (d, i) { return d;})  ;
 
+    // adding a bar for each category
     series.selectAll("rect")
         .data(Object) 
         .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", 0)
-            .attr("y", y)
-            .attr("width", x1.rangeBand())
-            .attr("height", 0)
-            .transition()
-            .delay(500)
-            .attr("height", function (d) { return height - y(d); })
-            .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
-            //.on('mouseover', tip.show)
-            //.on('mouseout', tip.hide);
+          .attr("class", "bar")
+          .attr("x", 0)
+          .attr("y", y)
+          .attr("width", x1.rangeBand())
+          .attr("height", 0)
+          .transition()
+          .delay(500)
+          .attr("height", function (d) { return height - y(d); })
+          .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
+          .attr("id", function (d, i) { return d; })
                 
-        chart.append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-          .selectAll("text")  
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", "rotate(-45)" )
+    // adding the x-axis
+    chart.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+      .selectAll("text")  
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-45)" )
         
-        chart.append("text")
-            .attr("x", width/2)
-            .attr("y", 300)
-            .attr("class", "axis")
-            .style("text-anchor", "middle")
-            .text("Category")
+    // label on the x-axis
+    chart.append("text")
+        .attr("x", width/2)
+        .attr("y", 300)
+        .attr("class", "axis")
+        .style("text-anchor", "middle")
+        .text("Category")
 
-        chart.append("g")
-            .attr("class", "axis")
-            .call(yAxis);
+    // adding the y-axis
+    chart.append("g")
+        .attr("class", "axis")
+        .call(yAxis);
        
-        chart.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("class", "axis")
-            .attr("x", -30)
-            .attr("y", -20)
-            .style("text-anchor", "end")
-            .text("Number of reports");
+    // label on the y-axis
+    chart.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("class", "axis")
+        .attr("x", -30)
+        .attr("y", -20)
+        .style("text-anchor", "end")
+        .text("Number of reports");
 
-        chart.append("text")
-          .attr("x", width/2)
-          .attr("y", -10)
-          .attr("id", "barcharttitle")
-          .style("text-anchor", "middle")
-          .text("Reports for " + titleDate(date))  
+    // chart title
+    chart.append("text")
+        .attr("x", width/2)
+        .attr("y", -10)
+        .attr("id", "barcharttitle")
+        .style("text-anchor", "middle")
+        .text("Reports for " + titleDate(date)); 
 
-        //chart.call(tip);
+    // showing the amount of reports that make up a bar (on hover)
+    chart.append("text")
+        .attr("x", width/2)
+        .attr("y", 40)
+        .attr("id", "amount")
+        .style("text-anchor", "middle")
+        .text(""); 
 
-        // adding a legend
-        var legend = chart.selectAll("g.legend")
-          .data([1, 2])
-          .enter().append("g")
-          .attr("class", "legend");
+    // adding a legend
+    var legend = chart.selectAll("g.legend")
+        .data([1, 2])
+        .enter().append("g")
+        .attr("class", "legend");
 
-        var ls_w = 20, ls_h = 20;
-        var legend_labels = ["conventional", "crowdsourced"]
+    var ls_w = 20, ls_h = 20;
+    var legend_labels = ["conventional", "crowdsourced"]
 
-        legend.append("rect")
-          .attr("x", width-90)
-          .attr("y", function(d, i){ return (height - (i*ls_h) - 2*ls_h)-200;})
-          .attr("width", ls_w)
-          .attr("height", ls_h)
-          .style("fill", function(d, i) { return colors[i]; })
-          .style("opacity", 1);
+    legend.append("rect")
+        .attr("x", width-90)
+        .attr("y", function(d, i){ return (height - (i*ls_h) - 2*ls_h)-200;})
+        .attr("width", ls_w)
+        .attr("height", ls_h)
+        .style("fill", function(d, i) { return colors[i]; })
+        .style("opacity", 1);
 
-        legend.append("text")
-          .style("text-anchor", "start")
-          .attr("x", width-65)
-          .attr("y", function(d, i){ return (height - (i*ls_h) - ls_h - 4)-200;})
-          .text(function(d, i){ return legend_labels[i]; });
+    legend.append("text")
+        .style("text-anchor", "start")
+        .attr("x", width-65)
+        .attr("y", function(d, i){ return (height - (i*ls_h) - ls_h - 4)-200;})
+        .text(function(d, i){ return legend_labels[i]; });
+
+    // workaround for tooltip issues: conflicting with C3.js
+    // not too pretty but oh well..
+    d3.selectAll('.bar')
+        .attr("onmouseover", "document.getElementById('amount').innerHTML = $(this)[0].id + ' reports' ")
+        .attr("onmouseout", "document.getElementById('amount').innerHTML = ''")
+
 };
+
+
 
 /*
  * Additional helper functions
@@ -297,9 +321,10 @@ function countRows(dataset){
               }
               counts[key].combined++;
         }  
-	});
+    });
 
-	var counted = [];
+    // from dictionary to array
+	  var counted = [];
     Object.keys(counts).forEach(function(key){
       	counted.push([counts[key].date, counts[key].conventional, counts[key].crowdsourced, counts[key].combined]);
     });
@@ -307,6 +332,7 @@ function countRows(dataset){
     counted.sort(sortFunction);
     counted = d3.transpose(counted);
 
+    // cumulative numbers to be displayed: adding up the data cumulatively
     var countedcumulative = [["dates", "conventional", "crowdsourced", "combined"]]
     var dates = ['dates']
     for (i = 0; i < counted[0].length; i++) {
@@ -326,7 +352,6 @@ function countRows(dataset){
 };
 
 
-
 // sorting two-dimensional arrays
 // from https://stackoverflow.com/questions/16096872/how-to-sort-2-dimensional-array-by-column-value
 function sortFunction(a, b) {
@@ -338,6 +363,7 @@ function sortFunction(a, b) {
     }
 };
 
+// adding a date as title to the bar graph
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function titleDate(date){

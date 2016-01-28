@@ -1,10 +1,13 @@
 /*
  *
  * Kim de Bie (11077379) - 5 January 2016
- * Last updated: 21 January 2016
+ * Last updated: 28 January 2016
+ * Minor Programmeren: Programmeerproject
+ * University of Amsterdam
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake. Bar charts displayed with data per district on-click.
+ * Functions for drawing the map and bar charts and selecting/processing the data. 
  * 
  */
 
@@ -19,6 +22,7 @@ var color = d3.scale.threshold()
     .domain([5, 10, 15, 20, 25, 30, 35, 40, 245])
     .range(["#EFEE69", "#B6DB6B", "#84C671", "#5AAE76", "#389576", "#237B71", "#1F6165", "#214854", "#21313E"])
 
+// setting variables for the legend
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30, 35, 40]
 var legend_labels = ["<5", "5+", "10+", "15+", "20+", "25+", "30+", "35+", "40+"]
 
@@ -31,7 +35,7 @@ queue()
   .await(loadMap);
 
 /*
- * map element
+ * Map element
  * https://github.com/batuwa/nepal_d3_map
  */
 
@@ -70,11 +74,11 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
     // this will be used to add each district's path
     var g = svg.append("g");
 
-    // tooltip
+    // tooltip for each district
     var tooltip = d3.select("#nepalmap").append("div")
         .attr("class", "tooltip");
 
-    // save all datasets into a global variable with appropriate date value
+    // save all datasets into a global variable with JS-date
     conventionaldata = adaptDate(conventional);
     crowdsourceddata = adaptDate(crowdsourced);
     combineddata = adaptDate(combined);
@@ -118,13 +122,13 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
         d3.select(".tooltip").classed("hidden", true);
       })
 
-    // making the borders nice
+    // making the borders look pretty
     g.append("path")
       .datum(topojson.mesh(nepal, nepal.objects.districts, function(a, b) { return a !== b;}))
       .attr("class", "district-boundary")
       .attr("d", path); 
 
-    // coloring the map - initally with both data sources
+    // coloring the map - initially with both data sources
     type = combineddata;
     colorMap(type);
     initialLoad = false;
@@ -151,6 +155,7 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
       .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
       .text(function(d, i){ return legend_labels[i]; });
 
+    // adding a title
     svg.append("text")
     .style("text-anchor", "end")
     .attr("id", "maptitle")
@@ -159,28 +164,6 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
     .text("Data density: number of reports per district")
 };
 
-
-
-/*
- * Functions to determine what type of data should be displayed
- */
-
-function isChecked(button){
-    if(button.value == "both") {
-        type = combineddata;
-        colorMap(combineddata);
-    } else if (button.value == "conventional") {
-        type = conventionaldata;
-        colorMap(conventionaldata);
-    } else if (button.value == "crowdsourced") {
-        type = crowdsourceddata;
-        colorMap(crowdsourceddata);
-    } else {
-        d3.selectAll(".districts")
-          .style("fill", "#C1C1C1")
-        alert(button.value);
-    };
-};
       
 /* 
  * date slider (to select a date range)
@@ -207,6 +190,7 @@ noUiSlider.create(slider, {
 // updating the slider value
 slidervalue = document.getElementById("slidervalue")
 
+// color the map for the new date and with the right data source
 slider.noUiSlider.on('update', function( values, handle ) {
     slidervalue.innerHTML = formatDate(new Date(+values[handle]));
     date = new Date(+values[handle]);
@@ -228,7 +212,6 @@ function colorMap(dataset){
     // removing the tooltip
     d3.select(".d3-tip").remove();
 
-
     // reset the bar chart
     document.getElementById('barchart').innerHTML = '';
 
@@ -241,12 +224,10 @@ function colorMap(dataset){
         .on("click", showBarchart)
     });
 
-
-
 };
 
 /*
- *  the bar graphs that appear when clicking on a district should go here
+ *  The bar graph that appears when clicking on a district
  */
 
 function showBarchart(d){
@@ -257,6 +238,7 @@ function showBarchart(d){
 
 
         // filtering the appropriate data
+        // setting up an empty dictionary with all counts at zero
         var counts = {};
         var labels = ["medical", "damage", "search&rescue", "general assessment", "transport", "nutrition", "sanitation", "children", "casualties", "shelter", "communication", "population behavior", "shocks"];
         for (var i = 0; i < labels.length; i++){
@@ -267,6 +249,7 @@ function showBarchart(d){
             }
         };
 
+        // counting the elements for each label
         combineddata.forEach(function(r){
               if (r.date <= date){
                     if (r.district == d.properties.name.toLowerCase()){
@@ -280,12 +263,12 @@ function showBarchart(d){
               }
         });
 
-        // storing the data and labels for the grouped bar chart
+        // storing the data and labels in the correct format for the grouped bar chart
         // https://stackoverflow.com/questions/12180108/d3-create-a-grouped-bar-chart-from-json-objects
         var barchartdata = [];
         Object.keys(counts).forEach(function(key){
           barchartdata.push([counts[key].conventional, counts[key].crowdsourced]);
-        })
+        });
 
         var data = d3.transpose(barchartdata)
 
@@ -299,8 +282,9 @@ function showBarchart(d){
         var height = 380 - padding.top - padding.bottom; 
         var colors = ["#497285", "#F78536"]
 
-        var numberGroups = 13; // groups
-        var numberSeries = 2;  // series in each group
+        // number of groups and series in each group
+        var numberGroups = 13;
+        var numberSeries = 2; 
 
         // the absolute x axis
         var x0 = d3.scale.ordinal()
@@ -318,12 +302,14 @@ function showBarchart(d){
             .range([height, 0])
             .nice();
 
+        // drawing the x-axis
         var xAxis = d3.svg.axis()
             .scale(x0)
             .orient("bottom")
             .tickFormat(function(d, i){ return labels[i]})
             .outerTickSize(0);
 
+        // drawing the y-axis
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
@@ -339,6 +325,7 @@ function showBarchart(d){
           .append("g")
             .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
 
+        // adding a tooltip on each bar
         var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
@@ -353,6 +340,7 @@ function showBarchart(d){
                 .attr("fill", function (d, i) { return colors[i]; })
                 .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
 
+        // adding a bar for each category
         series.selectAll("rect")
             .data(Object) 
             .enter().append("rect")
@@ -368,6 +356,7 @@ function showBarchart(d){
                 .delay(500)
                 .attr("height", function (d) { return height - y(d); });
                 
+        // adding the x-axis
         chart.append("g")
             .attr("class", "axis")
             .attr("transform", "translate(0," + height + ")")
@@ -378,6 +367,7 @@ function showBarchart(d){
             .attr("dy", ".15em")
             .attr("transform", "rotate(-45)" )
         
+        // label for the x-axis
         chart.append("text")
             .attr("x", width/2)
             .attr("y", 300)
@@ -385,10 +375,12 @@ function showBarchart(d){
             .style("text-anchor", "middle")
             .text("Category")
 
+        // adding the y-axis
         chart.append("g")
             .attr("class", "axis")
             .call(yAxis);
 
+        // label for the y-axis
         chart.append("text")
             .attr("transform", "rotate(-90)")
             .attr("class", "axis")
@@ -397,45 +389,105 @@ function showBarchart(d){
             .style("text-anchor", "end")
             .text("Number of Reports");
 
+        // adding a title
         chart.append("text")
-          .attr("x", width/2)
-          .attr("y", -10)
-          .attr("id", "barcharttitle")
-          .style("text-anchor", "middle")
-          .text("Reports for " + d.properties.name.capitalize(true) + " on " + titleDate(date))  
+            .attr("x", width/2)
+            .attr("y", -10)
+            .attr("id", "barcharttitle")
+            .style("text-anchor", "middle")
+            .text("Reports for " + d.properties.name.capitalize(true) + " on " + titleDate(date))  
 
+        // applying a tooltip
         chart.call(tip);
 
         // adding a legend
         var legend = chart.selectAll("g.legend")
-          .data([1, 2])
-          .enter().append("g")
-          .attr("class", "legend");
+            .data([1, 2])
+            .enter().append("g")
+            .attr("class", "legend");
 
         var ls_w = 20, ls_h = 20;
         var legend_labels = ["conventional", "crowdsourced"]
 
         legend.append("rect")
-          .attr("x", width-90)
-          .attr("y", function(d, i){ return (height - (i*ls_h) - 2*ls_h)-200;})
-          .attr("width", ls_w)
-          .attr("height", ls_h)
-          .style("fill", function(d, i) { return colors[i]; })
-          .style("opacity", 1);
+            .attr("x", width-90)
+            .attr("y", function(d, i){ return (height - (i*ls_h) - 2*ls_h)-200;})
+            .attr("width", ls_w)
+            .attr("height", ls_h)
+            .style("fill", function(d, i) { return colors[i]; })
+            .style("opacity", 1);
 
         legend.append("text")
-          .style("text-anchor", "start")
-          .attr("x", width-65)
-          .attr("y", function(d, i){ return (height - (i*ls_h) - ls_h - 4)-200;})
-          .text(function(d, i){ return legend_labels[i]; });
+            .style("text-anchor", "start")
+            .attr("x", width-65)
+            .attr("y", function(d, i){ return (height - (i*ls_h) - ls_h - 4)-200;})
+            .text(function(d, i){ return legend_labels[i]; });
 
 };
 
 
 
 /*
- * Other helper functions
+ * Additional helper functions
  */
+
+// function to determine what type of data should be displayed from the HTML buttons
+function isClicked(button){
+    if(button.value == "both") {
+        type = combineddata;
+        colorMap(combineddata);
+    } else if (button.value == "conventional") {
+        type = conventionaldata;
+        colorMap(conventionaldata);
+    } else if (button.value == "crowdsourced") {
+        type = crowdsourceddata;
+        colorMap(crowdsourceddata);
+    } else {
+        d3.selectAll(".districts")
+          .style("fill", "#C1C1C1")
+        alert(button.value);
+    };
+};
+
+// function to save datasets with correct dates (from Excel date to JS)
+function adaptDate(dataset){
+  dataset.forEach(function(r) {
+    // https://gist.github.com/christopherscott/2782634 (adapted)
+    r.date = new Date(((r.date - (25567 + 2))*86400*1000)-2*60*60*1000);
+  });
+  return dataset;
+};
+
+
+// function to count the number of rows applicable to each district
+function countRows(dataset){
+    // counting the number of rows for each district
+    // https://stackoverflow.com/questions/19711123/count-the-number-of-rows-of-a-csv-file-with-d3-js
+    var counts = {};
+    dataset.forEach(function(r) {
+        if (r.district !== "NA"){
+          // only reports included up to date selected with slider
+          if (r.date <= date){
+              var key = r.district;
+              if (!counts[key]) {
+                    counts[key] = {
+                      district: r.district,
+                      count: 0
+                    };
+              }
+              counts[key].count++;
+            }
+        }  
+    });
+
+    // converting to an array
+    var data = [];
+    Object.keys(counts).forEach(function(key) {
+        data.push(counts[key]);
+    });
+    return data;
+
+};
 
 // function for capitalizing strings
 // from: https://stackoverflow.com/questions/2332811/capitalize-words-in-string
@@ -473,46 +525,5 @@ function formatDate ( date ) {
 function titleDate(date){
     return date.getDate() + nth(date.getDate()) + " " +
         months[date.getMonth()]
-}
-
-
-// function to save datasets with correct dates (from Excel date to JS)
-
-function adaptDate(dataset){
-  dataset.forEach(function(r) {
-    // https://gist.github.com/christopherscott/2782634 (adapted)
-    r.date = new Date(((r.date - (25567 + 2))*86400*1000)-2*60*60*1000);
-  });
-  return dataset;
 };
 
-
-// function to count the number of rows for a given selection
-
-function countRows(dataset){
-    // counting the number of rows for each district
-    // https://stackoverflow.com/questions/19711123/count-the-number-of-rows-of-a-csv-file-with-d3-js
-    var counts = {};
-    dataset.forEach(function(r) {
-        if (r.district !== "NA"){
-          // only reports included up to date selected with slider
-          if (r.date <= date){
-              var key = r.district;
-              if (!counts[key]) {
-                    counts[key] = {
-                      district: r.district,
-                      count: 0
-                    };
-              }
-              counts[key].count++;
-            }
-        }  
-    });
-
-    // converting to an array
-    var data = [];
-    Object.keys(counts).forEach(function(key) {
-        data.push(counts[key]);
-    });
-    return data;
-};

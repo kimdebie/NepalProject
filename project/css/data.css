@@ -1,3 +1,7 @@
+/*
+ * css specifically for the line graph
+ */
+
 h3 {
 	font: 25px 'Oswald' sans-serif;
 	padding-bottom: 0;
@@ -21,3 +25,4 @@ h3 {
 .c3-axis {
 	font: 14px 'Oswald' sans-serif;
 }
+

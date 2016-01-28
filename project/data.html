@@ -7,12 +7,16 @@
 		<link rel="stylesheet" type="text/css" href="css/c3.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
 		<link rel="stylesheet" type="text/css" href="css/data.css"/>
+
 		<meta charset="utf-8"/>
 		<title>The 2015 Nepal Earthquake</title>
+		
 		<script src="js/jsbackup.js"></script>
 		<script src="js/d3backup.js"></script>
-		<div id="c3script"><script src="js/c3.js"></script></div>
+		<script src="js/c3.js"></script>
 		<script src="js/queuebackup.js"></script>
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -35,9 +39,9 @@
 			</div>
 
 			<div id="content">
-				<p>This page allows you to explore data over time. If you'd rather analyze data per district, go to the <a href="home.html">homepage</a>. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
+				<p>This page allows you to explore the total amount of data over <b>time</b>. If you'd rather analyze data per <b>district</b>, go to the <a href="home.html">homepage</a>. Click <a href="crowdsourcing.html#data">here</a> to read more about the data that was used for this project.</p>
 				<h3>Number of reports per day</h3>
-				<div id="chart"><script type="text/javascript" src="js/linegraph.js"></script></div>
+				<div id="chart"><script type="text/javascript" src="js/dataovertime.js"></script></div>
 				<p>To see what data is available on a given date, click that date to show a barchart!</p>
 				<div id="barchart"></div>
 			</div>
