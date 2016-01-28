@@ -17,7 +17,7 @@ The first element will be a map of Nepal with its 75 districts. This map will di
 
 * Clicking on a **district** will manipulate the bar chart as described below. I should therefore record these clicks (onClick).  
 
-![]doc/designdoc1.png
+![](doc/designdoc1.png)
 
 ###Bar chart with data per category.
 
@@ -30,7 +30,7 @@ The second element of the visualization is a bar chart that says something about
     * Separate lists(?) for each category are created (twice: once for conventional and once for the crowdsourced data) and their length is checked.
     * The bar chart is created on the basis of this data. Two bars for each category: one for conventional and crowdsourced data.
 
-![]doc/designdoc2.png
+![](doc/designdoc2.png)
 
 ###Feature to check individual reports (optional).
 
@@ -43,7 +43,7 @@ The last element should allow the user to explore individual reports for more in
     * Each report will be represented by a coloured dot (using D3). 
     * Hovering over a dot displays reports for that dot. 
 
-![]doc/designdoc3.png
+![](doc/designdoc3.png)
 
 ###Minimum Viable Product
 
