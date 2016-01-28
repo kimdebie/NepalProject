@@ -1,6 +1,7 @@
 #Final Report
 
-###Kim de Bie (11077379): Programming Project (Minor Programmeren, Universiteit van Amsterdam)
+###Kim de Bie (11077379): Programming Project 
+### 28 January 2016: Minor Programmeren, Universiteit van Amsterdam
 
 ####Introduction
 In this final report, I will describe the process of developing my data visualization tool. Firstly, the theory behind the visualization and the reasons for developing it will be discussed. After this, I will discuss how the theoretical underpinnings have informed the visual design of the visualization. Thirdly, I will discuss how the visualization was technically implemented. Throughout the report, I will describe the reasons for implementing both design and visual aspects in the way I did, linking back to the theoretical framework wherever possible, the difficulties I encountered during developing the visualization and the solutions I found to these issues. 
@@ -12,7 +13,7 @@ Nonetheless, aid organizations are reluctant to make use of crowdsourced data: t
 
 
 ####Designing the visualization
-The three most important qualities that crowdsourced data is claimed to have are, as described above, speed, spatial spread and spread over different topics. Therefore, the visualization should especially clarify the differences between conventional and crowdsourced data on these dimensions. Here, I will describe the design of the four elements that I used to display the three data dimensions. 
+The three most important qualities that crowdsourced data is claimed to have are, as described above, _**speed, spatial spread and spread over different topics**_. Therefore, the visualization should especially clarify the differences between conventional and crowdsourced data on these dimensions. Here, I will describe the design of the four elements that I used to display the three data dimensions. 
 
 The first element of the visualization, the __map__ on the homepage, mainly gives insights into the _**spatial spread**_ of the data. By coloring districts darker when there is more data available (in other words, when data density is higher), it becomes visible which data source provides more information about a district. Although I considered mapping data points to their exact location (so not simply their district), I decided against this: many data points that are applicable to an entire district are only linked to the district capital in my dataset. Therefore, I feel that linking data points exclusively to a district capital would give a false representation of reality, and I have used data density per district as the measure for spatial spread of my data. Buttons are used to swap between conventional and crowdsourced data. In order to say something about the total amount of data that was available (because it would probably make sense to use both data sources together in real disaster environments), a button to display both data sources at once is included. Lastly, a date slider allows the user to select a date to see how many reports were available at that point in time, which gives some initial information about the _speed_ at which data becomes available.  Here, and in all other parts of the visualization where a time element is present, I have chosen to include reports _up to_ the selected date. This because reports that became available earlier are probably still relevant today, and still contribute to the total amount of knowledge about the situation.
 
