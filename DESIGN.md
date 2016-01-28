@@ -1,6 +1,5 @@
 #Design Document
 ####Last edited: 6 January 2016
-*NB: This version is not complete yet!*
 
 To recap: I aim to visualize conventional and crowdsourced data as collected after the earthquake in Nepal on 25 April 2015. My visualization will consist of two main parts (possibly a third):
 

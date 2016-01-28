@@ -68,3 +68,19 @@ Something I still want to do is implementing the _tooltip_ on the second bar cha
 ###day 13 and 14: 20/21 January
 
 I spent the past two days on styling my website. I looked into different fonts, colours and the general layout of the website and I am quite happy with the results. I also implemented nice transitions for the bar charts which makes them look quite smooth now! Something that is unfortunately still not working is the tooltip that is implemented on the line & bar chart page. The line chart uses C3 and it seems like D3 and C3 code interfere with each other. I'm not sure how to fix that yet but I'll hopefully figure it out.
+
+###day 15 and 16: 22/25 January
+
+[Unfortunately, I have spent a few days in bed with a fever so I wasn't able to work on the project very much during these two days.] 
+
+###day 17: 26 January
+
+Today I got back on my project again. It wasn't a very productive day; I spent very long on identifying why exactly the tooltip that I used for the bar chart on the home page didn't work on the other bar chart that I was using. I found that it is indeed due to C3 overriding some elements of D3, causing the D3-tooltip not to work. I tried to edit the C3 and D3 code itself to work around this problem but I didn't have much success with that. I also looked into ways of de-activating scripts after they are loaded (my logic here was to de-activate the C3-script so that the D3 tooltip would work normally again), but this didn't seem feasible. Tomorrow, I will look into other strategies to make this work. 
+
+###day 18: 27 January
+
+Today, I finally got (some kind of) tooltip working on the line graph page. Firstly, I tried to implement a tooltip from other JavaScript libraries (e.g. PowerTip) but this didn't seem to prevent the problem. After this, I found that implementing onmousein/onmouseout events _after_ loading the entire bar chart did work. Still, it wasn't possible to implement this using tooltip libraries. Therefore I did it manually, so that now a static text element is updated on hovering over a bar. Unfortunately, due to time constraints I didn't manage to make this into a proper tooltip moving along with the cursor/bar, but I'm happy I got it working in this way nonetheless. 
+
+###day 19 (final programming day): 28 January
+
+Today I mostly spent cleaning up code: removing redundant bits, fixing indentations, changing/clarifying some variable names, adding comments etcetera. Looking back, I'm quite happy with the results and I'm looking forward to presenting my final product tomorrow!
