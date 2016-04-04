@@ -7,12 +7,12 @@
  *
  * Displays a map of Nepal with crowdsourced and conventional data from after the
  * 25 April 2015 earthquake. Bar charts displayed with data per district on-click.
- * Functions for drawing the map and bar charts and selecting/processing the data. 
- * 
+ * Functions for drawing the map and bar charts and selecting/processing the data.
+ *
  */
 
 
-// global variables to be called throughout program 
+// global variables to be called throughout program
 var date, type, conventionaldata, crowdsourceddata, combineddata;
 var initialLoad = true;
 
@@ -126,7 +126,7 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
     g.append("path")
       .datum(topojson.mesh(nepal, nepal.objects.districts, function(a, b) { return a !== b;}))
       .attr("class", "district-boundary")
-      .attr("d", path); 
+      .attr("d", path);
 
     // coloring the map - initially with both data sources
     type = combineddata;
@@ -164,11 +164,11 @@ function loadMap(error, nepal, conventional, crowdsourced, combined){
     .text("Data density: number of reports per district")
 };
 
-      
-/* 
+
+/*
  * date slider (to select a date range)
  * noUISlider from https://refreshless.com/nouislider
- */ 
+ */
 
 // create a list of day and monthnames (for displaying the date)
 var weekdays = ["Sunday", "Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday"];
@@ -200,8 +200,8 @@ slider.noUiSlider.on('update', function( values, handle ) {
 });
 
 
-/* 
- * function to color the map based on data 
+/*
+ * function to color the map based on data
  */
 
 function colorMap(dataset){
@@ -216,7 +216,7 @@ function colorMap(dataset){
     document.getElementById('barchart').innerHTML = '';
 
     counted = countRows(dataset);
-      
+
     // color the districts with datapoints
     counted.forEach(function(object){
       d3.select("#" + object.district)
@@ -279,12 +279,12 @@ function showBarchart(d){
         // declaring variables
         var padding = { top: 60, bottom: 90, left: 50, right: 30 };
         var width = 650 - padding.left - padding.right;
-        var height = 380 - padding.top - padding.bottom; 
+        var height = 380 - padding.top - padding.bottom;
         var colors = ["#497285", "#F78536"]
 
         // number of groups and series in each group
         var numberGroups = 13;
-        var numberSeries = 2; 
+        var numberSeries = 2;
 
         // the absolute x axis
         var x0 = d3.scale.ordinal()
@@ -342,7 +342,7 @@ function showBarchart(d){
 
         // adding a bar for each category
         series.selectAll("rect")
-            .data(Object) 
+            .data(Object)
             .enter().append("rect")
                 .attr("class", "bar")
                 .attr("x", 0)
@@ -355,18 +355,18 @@ function showBarchart(d){
                 .transition()
                 .delay(500)
                 .attr("height", function (d) { return height - y(d); });
-                
+
         // adding the x-axis
         chart.append("g")
             .attr("class", "axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
-          .selectAll("text")  
+          .selectAll("text")
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
             .attr("transform", "rotate(-45)" )
-        
+
         // label for the x-axis
         chart.append("text")
             .attr("x", width/2)
@@ -395,7 +395,7 @@ function showBarchart(d){
             .attr("y", -10)
             .attr("id", "barcharttitle")
             .style("text-anchor", "middle")
-            .text("Reports for " + d.properties.name.capitalize(true) + " on " + titleDate(date))  
+            .text("Reports for " + d.properties.name.capitalize(true) + " on " + titleDate(date))
 
         // applying a tooltip
         chart.call(tip);
@@ -435,7 +435,7 @@ function showBarchart(d){
 function isClicked(button){
     if(button.value == "both") {
         type = combineddata;
-        colorMap(combineddata);
+        colorMap(type);
     } else if (button.value == "conventional") {
         type = conventionaldata;
         colorMap(conventionaldata);
@@ -477,7 +477,7 @@ function countRows(dataset){
               }
               counts[key].count++;
             }
-        }  
+        }
     });
 
     // converting to an array
@@ -499,7 +499,7 @@ String.prototype.capitalize = function(lower) {
 // from https://refreshless.com/nouislider/examples/#section-dates
 
 function timestamp(str){
-    return new Date(str).getTime();   
+    return new Date(str).getTime();
 };
 
 // Append a suffix to dates.
@@ -526,4 +526,3 @@ function titleDate(date){
     return date.getDate() + nth(date.getDate()) + " " +
         months[date.getMonth()]
 };
-
